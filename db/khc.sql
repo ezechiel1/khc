@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2019 at 12:21 AM
+-- Generation Time: Oct 04, 2019 at 02:03 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -52,6 +52,7 @@ CREATE TABLE `booking` (
   `id` int(11) NOT NULL,
   `house_id` int(11) NOT NULL,
   `client_id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   `c_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -86,6 +87,15 @@ CREATE TABLE `district` (
   `id` int(11) NOT NULL,
   `district_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `district`
+--
+
+INSERT INTO `district` (`id`, `district_name`) VALUES
+(1, 'Kicukiro'),
+(2, 'Gasabo'),
+(3, 'Nyarugenge');
 
 -- --------------------------------------------------------
 
@@ -137,6 +147,23 @@ CREATE TABLE `house_owners` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL,
+  `bank_name` varchar(50) NOT NULL,
+  `payment_date` date NOT NULL,
+  `amount_paid` double NOT NULL,
+  `slip_number` int(11) NOT NULL,
+  `slip_picture` varchar(2000) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `c_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sector`
 --
 
@@ -145,6 +172,54 @@ CREATE TABLE `sector` (
   `sector_name` varchar(50) NOT NULL,
   `district_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sector`
+--
+
+INSERT INTO `sector` (`id`, `sector_name`, `district_id`) VALUES
+(1, 'Ngoma', 1),
+(2, 'Masaka', 1),
+(3, 'Cyimo', 1),
+(4, 'Nyarugunga', 1),
+(5, 'Kamashashi', 1),
+(6, 'Bumbogo', 2),
+(7, 'Gikomero', 2),
+(8, 'Rutunga', 2),
+(9, 'Nduba', 2),
+(10, 'Jabana', 2),
+(11, 'Jali', 2),
+(12, 'Rusororo', 2),
+(13, 'Ndera', 2),
+(14, 'Kimihurura', 2),
+(15, 'Kacyiru', 2),
+(16, 'Kimironko', 2),
+(17, 'Remera', 2),
+(18, 'Gisozi', 2),
+(19, 'Kinyinya', 2),
+(20, 'Gatsata', 2),
+(21, 'Gahanga', 2),
+(22, 'Gatenga', 2),
+(23, 'Gikondo', 2),
+(24, 'Kagunga', 2),
+(25, 'Kanombe', 2),
+(26, 'Rubirizi', 2),
+(27, 'Kagarama', 2),
+(28, 'Kimihurura', 2),
+(29, 'Rukatsa', 2),
+(30, 'Niboye', 2),
+(31, 'Gatare', 2),
+(32, 'Taba', 2),
+(33, 'Kigarama', 2),
+(34, 'Nyenyeri', 2),
+(35, 'Bwerankori', 2),
+(36, 'Gitega', 3),
+(37, 'Kimisagara', 3),
+(38, 'Muhima', 3),
+(39, 'Nyakabanda', 3),
+(40, 'Nyamirambo', 3),
+(41, 'Nyarugenge', 3),
+(42, 'Rwezamenyo', 3);
 
 --
 -- Indexes for dumped tables
@@ -187,6 +262,12 @@ ALTER TABLE `house_owners`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sector`
 --
 ALTER TABLE `sector`
@@ -218,7 +299,7 @@ ALTER TABLE `clients`
 -- AUTO_INCREMENT for table `district`
 --
 ALTER TABLE `district`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `houses`
@@ -233,10 +314,16 @@ ALTER TABLE `house_owners`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `sector`
 --
 ALTER TABLE `sector`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

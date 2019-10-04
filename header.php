@@ -20,6 +20,7 @@
 <link rel="stylesheet" href="css/animate.css"/>
 <link rel="stylesheet" href="css/owl.carousel.css"/>
 <link rel="stylesheet" href="css/style.css"/>
+<link rel="stylesheet" href="css/modal.css">
 
 
 </head>
@@ -54,8 +55,8 @@ info.kigalihouses@gmail.com
 <a href=""><i class="fa fa-linkedin"></i></a>
 </div>
 <div class="user-panel">
-<a href="Login/register.html"><i class="fa fa-user-circle-o"></i> Register</a>
-<a href="Login/indexlogin.html"><i class="fa fa-sign-in"></i> Login</a>
+<a href="registration.php"><i class="fa fa-user-circle-o"></i> Register</a>
+<a href="login.php"><i class="fa fa-sign-in"></i> Login</a>
 </div>
 </div>
 </div>

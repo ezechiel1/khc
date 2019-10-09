@@ -13,18 +13,7 @@
 <a href="family2rent.html"><div class="rent-notic">FOR Rent</div></a>
 
 </center>
-<!-- Breadcrumb -->
-<center>
-<div class="site-breadcrumb">
-<div class="container">
-<a href="family2.html"><i class="fa fa-home"></i>Family Home</a>
-<a href="singleproperty.html"><i class="fa fa-home"></i>Single Property</a>
-<a href="mensionplaza.html"><i class="fa fa-home"></i>Mension Plaza</a>
-<a href="villa.html"><i class="fa fa-home"></i>Villa</a>
-<a href="apartments.html"><i class="fa fa-building"></i>Apartments</a>
-</div>
-</div>
-</center>
+<br>
 <!-- page -->
 <section class="page-section categories-page">
 <div class="container">

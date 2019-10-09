@@ -9,14 +9,6 @@
 </div>
 </section>
 <!--  Page top end -->
-
-<!-- Breadcrumb -->
-<div class="site-breadcrumb">
-<div class="container">
-<a href=""><i class="fa fa-home"></i>Home</a>
-<span><i class="fa fa-angle-right"></i>Contact Info</span>
-</div>
-</div>
 <section class="hero-section set-bg" data-setbg="img/index3.jpg">
 <!-- page -->
 <section class="page-section blog-page">

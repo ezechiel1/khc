@@ -25,10 +25,7 @@
 
 </head>
 <body>
-<!-- Page Preloder -->
-<div id="preloder">
-<div class="loader"></div>
-</div>
+
 
 <!-- Header section -->
 <header class="header-section">
@@ -66,9 +63,9 @@ info.kigalihouses@gmail.com
 <div class="row">
 <div class="col-12">
 <div class="site-navbar">
-<div class="nav-switch">
+<!-- <div class="nav-switch">
 <i class="fa fa-bars"></i>
-</div>
+</div> -->
 <ul class="main-menu">
 <li><a href="index.php"><b>Home</b></a></li>
 <li><a href="categories.php"><b>FEATURED LISTING</b></a></li>

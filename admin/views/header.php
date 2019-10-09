@@ -1,3 +1,27 @@
+<?php 	session_start();
+	//load and initialize database class
+	require_once 'core/db.php';
+	$db = new DB();
+  //Auth
+  if($_SESSION['id']=='') header('location: index.php');
+  $id = $_SESSION['id'];
+  $category=$_SESSION['category'];
+  if($category=='admin'):
+      $getU=$db->getRows('admin',array('where'=>array('id'=>$id)));
+      if(!empty($getU)): foreach($getU as $getUser):
+          $names = $getUser['fname'].' '.$getUser['lname'];
+          $profile=$getUser['profile'];
+        endforeach;
+      endif;
+  elseif($category=='house_owner'):
+      $getU=$db->getRows('house_owners',array('where'=>array('id'=>$id)));
+      if(!empty($getU)): foreach($getU as $getUser):
+          $names = $getUser['fname'].' '.$getUser['lname'];
+          $profile=$getUser['profile'];
+        endforeach;
+      endif;
+  endif;
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +33,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>Kigali House Connect</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -17,9 +41,88 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
+	<!-- PNotify -->
+ <link href="pnotify/dist/pnotify.css" rel="stylesheet">
+ <link href="pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+ <link href="pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 
+  <style media="screen">
+  .sidebar hr.sidebar-divider {
+  margin: 0 0rem 0rem;
+      margin-top: 0px;
+      margin-bottom: 0rem;
+}
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0rem;
+    outline: 0;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #6e707e;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d1d3e2;
+    border-radius: 0rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: .2rem .2rem;
+    clear: both;
+    font-weight: 400;
+    color: #3a3b45;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+.table td, .table th {
+padding: 0px;
+    padding-top: .4rem;
+    padding-bottom: .4rem;
+    padding-left: .4rem;
+    padding-right: .4rem;
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+}
+  </style>
+	<style>
+ /* pnotify */
+ .bg-fblue, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+		 background-color: #4e73df !important;
+		 color: white;
+		 border: none;
+ }
+ </style>
 </head>
-
+<?php
+$sssData=array();
+$sssData=$_SESSION['sessData'];
+if($sssData!=''):
+?>
+<body onpageshow="new PNotify({
+								title: 'Notification',
+								text: '<?php echo $sssData['status']['msg'];?>',
+								type: 'info',
+								styling: 'bootstrap3'
+						});">
+</body>
+<?php endif; ?>
 <body id="page-top">
 
   <!-- Page Wrapper -->
@@ -30,10 +133,10 @@
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-laugh-wink"></i>
+        <div class="sidebar-brand-icon">
+          <img style="width: 50px; height: 50px;" class="img-profile rounded-circle" src="<?php echo $profile; ?>">
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-4"> KHC</div>
       </a>
 
       <!-- Divider -->
@@ -41,91 +144,46 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="principal.php?request=home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
+          <span>Dashboard <?php echo $category; 	 ?></span></a>
       </li>
-
+<?php if($category=='admin'): ?>
+	<!-- Divider -->
+	<hr class="sidebar-divider">
+	<li class="nav-item active">
+		<a class="nav-link" href="principal.php?request=admin">
+			<i class="fa fa-users"></i>
+			<span>Administrators</span></a>
+	</li>
+	<!-- Divider -->
+	<hr class="sidebar-divider">
+	<li class="nav-item active">
+		<a class="nav-link" href="principal.php?request=house-owners">
+			<i class="fa fa-users"></i>
+			<span>House Owners</span></a>
+	</li>
+<?php endif; ?>
       <!-- Divider -->
       <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Interface
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
-          </div>
-        </div>
+      <li class="nav-item active">
+        <a class="nav-link" href="principal.php?request=register-house">
+          <i class="fa fa-home"></i>
+          <span>Register House</span></a>
       </li>
-
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
-        </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
-          </div>
-        </div>
-      </li>
-
       <!-- Divider -->
       <hr class="sidebar-divider">
-
-      <!-- Heading -->
-      <div class="sidebar-heading">
-        Addons
-      </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-          </div>
-        </div>
+      <li class="nav-item active">
+        <a class="nav-link" href="principal.php?request=available-houses">
+          <i class="fa fa-home"></i>
+          <span>Available Houses</span></a>
       </li>
-
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+      <li class="nav-item active">
+        <a class="nav-link" href="principal.php?request=booked-houses">
+          <i class="fa fa-home"></i>
+          <span>Booked Houses</span></a>
       </li>
 
       <!-- Divider -->
@@ -152,18 +210,6 @@
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
-
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
 
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
@@ -239,11 +285,11 @@
 
             <!-- Nav Item - Messages -->
             <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+                <!-- <i class="fas fa-envelope fa-fw"></i> -->
                 <!-- Counter - Messages -->
-                <span class="badge badge-danger badge-counter">7</span>
-              </a>
+                <!-- <span class="badge badge-danger badge-counter">7</span>
+              </a> -->
               <!-- Dropdown - Messages -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
                 <h6 class="dropdown-header">
@@ -298,12 +344,12 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $names; ?></span>
+                <img class="img-profile rounded-circle" src="<?php echo $profile;?>">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <!-- <a class="dropdown-item" href="#">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
@@ -314,7 +360,7 @@
                 <a class="dropdown-item" href="#">
                   <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                   Activity Log
-                </a>
+                </a> -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -327,12 +373,3 @@
 
         </nav>
         <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <div class="container-fluid">
-
-          <!-- Page Heading -->
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-          </div>

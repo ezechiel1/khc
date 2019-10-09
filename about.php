@@ -9,14 +9,7 @@
 </div>
 </section>
 <!--  Page top end -->
-
-<!-- Breadcrumb -->
-<div class="site-breadcrumb">
-<div class="container">
-<a href=""><i class="fa fa-home"></i>Home</a>
-<span><i class="fa fa-angle-right"></i>About us</span>
-</div>
-</div>
+<br>
 
 <!-- page -->
 <section class="page-section">

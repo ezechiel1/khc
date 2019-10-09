@@ -9,14 +9,7 @@
 </div>
 </section>
 <!--  Page top end -->
-
-<!-- Breadcrumb -->
-<div class="site-breadcrumb">
-<div class="container">
-<a href=""><i class="fa fa-home"></i>Home</a>
-<span><i class="fa fa-angle-right"></i>Single Listing</span>
-</div>
-</div>
+<br>
 
 <!-- Page -->
 <section class="page-section">
@@ -78,67 +71,6 @@
 <div class="description">
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus egestas fermentum ornareste. Donec index lorem. Vestibulum  aliquet odio, eget tempor libero. Cras congue cursus tincidunt. Nullam venenatis dui id orci egestas tincidunt id elit. Nullam ut vuputate justo. Integer lacnia pharetra pretium. Casan ante ipsum primis in faucibus orci luctus et ultrice.</p>
 </div>
-<h3 class="sl-sp-title">Property Details</h3>
-<div class="row property-details-list">
-<div class="col-md-4 col-sm-6">
-<p><i class="fa fa-check-circle-o"></i> Air conditioning</p>
-<p><i class="fa fa-check-circle-o"></i> Telephone</p>
-<p><i class="fa fa-check-circle-o"></i> Laundry Room</p>
-</div>
-<div class="col-md-4 col-sm-6">
-<p><i class="fa fa-check-circle-o"></i> Central Heating</p>
-<p><i class="fa fa-check-circle-o"></i> Family Villa</p>
-<p><i class="fa fa-check-circle-o"></i> Metro Central</p>
-</div>
-<div class="col-md-4">
-<p><i class="fa fa-check-circle-o"></i> City views</p>
-<p><i class="fa fa-check-circle-o"></i> Internet</p>
-<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
-</div>
-</div>
-<h3 class="sl-sp-title bd-no">Floorplans</h3>
-<div id="accordion" class="plan-accordion">
-<div class="panel">
-<div class="panel-header" id="headingOne">
-<button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">First Floor: <span>660 sq ft</span>	<i class="fa fa-angle-down"></i></button>
-</div>
-<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-header" id="headingTwo">
-<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Second Floor:<span>610 sq ft.</span>	<i class="fa fa-angle-down"></i>
-</button>
-</div>
-<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-header" id="headingThree">
-<button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">Third Floor :<span>580 sq ft</span>	<i class="fa fa-angle-down"></i>
-</button>
-</div>
-<div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-</div>
-
-<h3 class="sl-sp-title bd-no">Video</h3>
-<div class="perview-video">
-<img src="img/video.jpg" alt="">
-<a href="https://www.youtube.com/watch?v=v13nSVp6m5I" class="video-link"><img src="img/video-btn.png" alt=""></a>
-</div>
-<h3 class="sl-sp-title bd-no">Location</h3>
-<div class="pos-map" id="map-canvas"></div>
 </div>
 </div>
 <!-- sidebar -->
@@ -174,36 +106,6 @@
 <p><i class="fa fa-map-marker"></i>Los Angeles, CA 90034</p>
 </div>
 <a href="#" class="rp-price">$1,200,000</a>
-</div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/2.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="rp-info">
-<h5>17 Sturges Road, Wokingham</h5>
-<p><i class="fa fa-map-marker"></i> Newtown, CT 06470</p>
-</div>
-<a href="#" class="rp-price">$2,500/month</a>
-</div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/4.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="rp-info">
-<h5>28 Quaker Ridge Road, Manhasset</h5>
-<p><i class="fa fa-map-marker"></i>28 Quaker Ridge Road, Manhasset</p>
-</div>
-<a href="#" class="rp-price">$5,600,000</a>
-</div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/5.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="rp-info">
-<h5>Sofi Berryessa 750 N King Road</h5>
-<p><i class="fa fa-map-marker"></i>Sofi Berryessa 750 N King Road</p>
-</div>
-<a href="#" class="rp-price">$1,600/month</a>
 </div>
 </div>
 </div>

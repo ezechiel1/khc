@@ -3,6 +3,9 @@
 	//load and initialize database class
 	require_once '../core/db.php';
 	$db = new DB();
+	//load and initialize Extra class
+	require_once '../core/extra.php';
+	$extra = new Extra();
 
 	//set default redirect url
 	$redirectURL = '../../'.$db->url;
@@ -10,6 +13,8 @@
 	if(isset($_POST['register']))
 	{
 			$tblName='house_owners';
+			$profile=$extra->uploadPicture('../img/profile/',$_FILES['picture']);
+			if($profile):
 				$Data = array
 				(
           'fname' => $_POST['fname'],
@@ -17,10 +22,10 @@
 					'email' => $_POST['email'],
 					'phone' => $_POST['phone'],
 					'adress' => $_POST['adress'],
-					'status' => 1,
-					'pin' => 1,
-					'password' => sha1('khc@2019'),
-					'profile' => 'img/profile/u.png',
+					'status' => 0,
+					'pin' => 0,
+					'password' => sha1($_POST['password']),
+					'profile' => $profile,
 					'c_date' => $db->showDate('datetime')
 				 )
 				;
@@ -34,12 +39,18 @@
 
 				}
 				else{
-					$getMessage['status']['type']='error';
-					$getMessage['status']['type']='Some Errors occured! Please try again later.';
+					$sessData['status']['type']='error';
+					$sessData['status']['type']='Some Errors occured! Please try again later.';
 					//set redirect url
 					$redirectURL .= 'register.php';
 
 				}
+			else:
+				$sessData['status']['type']='error';
+				$sessData['status']['type']='Unable to complete! Verify your profile and try again later.';
+				//set redirect url
+				$redirectURL .= 'register.php?s='.$_FILES['picture']['name'];
+			endif;
 
 }
 // update

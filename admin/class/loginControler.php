@@ -31,7 +31,7 @@ if(isset($_POST['login'])){
                     if($user['pin']==0): //when pin is 0
                         $_SESSION['category']='admin';
                         //set redirect url
-                        $redirectURL .= '../admin/views/change.php';
+                        $redirectURL .= '../admin/change.php';
                     else:
                         $_SESSION['category']='admin';
                         $sessData['status']['type'] = 'success';
@@ -54,7 +54,7 @@ if(isset($_POST['login'])){
                       if($user['pin']==0): //when pin is 0
                           $_SESSION['category']='house_owner';
                           //set redirect url
-                          $redirectURL .= '../admin/views/change.php';
+                          $redirectURL .= '../admin/change.php';
                       else:
                           $_SESSION['category']='house_owner';
                           $sessData['status']['type'] = 'success';

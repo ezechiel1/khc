@@ -20,6 +20,12 @@ switch ($_GET['request']) {
   case 'booked-houses':
     include('views/booked_houses.php');
     break;
+  case 'payment':
+    include('views/payment.php');
+    break;
+  case 'feedback':
+    include('views/feedback.php');
+    break;
   default:
     include('views/dashboard.php');
     break;

@@ -14,40 +14,42 @@ if(isset($_POST['change'])){
             if($_SESSION['category']==''):$redirectURL .= '../change.php';
             elseif($_POST['npassword']!=$_POST['cpassword']):
                 $sessData['status']['type'] = 'error';
-                $sessData['status']['msg'] = 'Les deux Mot de Passe ne correspondent pas!';
+                $sessData['status']['msg'] = 'Passwords don\'t match!';
                 //set redirect url
-                $redirectURL = '../views/change.php';  
+                $redirectURL .= 'change.php';
             else:
-                    $tblName = 'membre';
+                    if($_SESSION['category']='admin'): $tblName = 'admin';
+                    elseif($_SESSION['category']='house_owner'): $tblName = 'house_owners';
+                    endif;
                     $userData = array
                     (
                         'password' => sha1($_POST['npassword']),
                         'pin' => 1
                     );
-                    $condition=array('membreID' => $_SESSION['ID'] );
+                    $condition=array('id' => $_SESSION['id'] );
 
-                //Update the table new password 
+                //Update the table new password
                 $update = $db->update($tblName, $userData, $condition);
                 if($update){
                     $sessData['status']['type'] = 'success';
-                    $sessData['status']['msg'] = 'L\'Operation a été exécutée correctement!';
+                    $sessData['status']['msg'] = 'Operation done successfully!';
                 //set redirect url
-                    $redirectURL .= '../index.php';
+                    $redirectURL .= 'index.php';
 
                 }
                 else{
                     $sessData['status']['type'] = 'error';
-                    $sessData['status']['msg'] = 'Operation failed, try again later ';
-                    
+                    $sessData['status']['msg'] = 'Operation failed, try again later !';
+
                     //set redirect url
-                    $redirectURL .= '../change.php';
+                    $redirectURL .= 'change.php';
                 }
-                
+
             endif;
     }
     //store status into the session
     $_SESSION['sessData'] = $sessData;
-    
+
     //redirect to the list page
     header("Location:".$redirectURL);
 }

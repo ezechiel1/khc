@@ -1,3 +1,4 @@
+<?php 	session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,14 +21,50 @@
 <link rel="stylesheet" href="css/animate.css"/>
 <link rel="stylesheet" href="css/owl.carousel.css"/>
 <link rel="stylesheet" href="css/style.css"/>
-
+<!-- PNotify -->
+<link href="admin/pnotify/dist/pnotify.css" rel="stylesheet">
+<link href="admin/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+<link href="admin/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+<style>
+/* pnotify */
+.bg-fblue, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+   background-color: #30caa0 !important;
+   color: white;
+   border: none;
+}
+.single-list-content .price-btn {
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    padding: 9px;
+    background: #30caa0;
+    color: #fff;
+    min-width: 200px;
+    border-radius: 2px;
+    margin-bottom: 70px;
+}
+</style>
 
 </head>
+<?php
+$sssData=array();
+$sssData=$_SESSION['sessData'];
+if($sssData!=''):
+?>
+<body onpageshow="new PNotify({
+								title: 'Notification',
+								text: '<?php echo $sssData['status']['msg'];?>',
+								type: 'info',
+								styling: 'bootstrap3'
+						});">
+</body>
+<?php endif; ?>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -59,8 +96,8 @@ info.kigalihouses@gmail.com
 <a href=""><i class="fa fa-linkedin"></i></a>
 </div>
 <div class="user-panel">
-<a href="login/login.html"><i class="fa fa-user-circle-o"></i> Register</a>
-<a href=""><i class="fa fa-sign-in"></i> Login</a>
+<a href="admin/register.php"><i class="fa fa-user-circle-o"></i> Register</a>
+<a href="admin/index.php"><i class="fa fa-sign-in"></i> Login</a>
 </div>
 </div>
 </div>
@@ -75,13 +112,13 @@ info.kigalihouses@gmail.com
 <i class="fa fa-bars"></i>
 </div>
 <ul class="main-menu">
-<li><a href="index.html">Home</a></li>
-<li><a href="categories.html">FEATURED LISTING</a></li>
-<li><a href="about.html">ABOUT US</a></li>
-<li><a href="single-list.html">Pages</a></li>
-<li><a href="blog.html">Blog</a></li>
-<li><a href="contact.html">Contact</a></li>
-<li><a href="single-blog.html">CHAT WITH US</a></li>
+<li><a href="index.php">Home</a></li>
+<li><a href="categories.php">FEATURED LISTING</a></li>
+<li><a href="about.php">ABOUT US</a></li>
+<!-- <li><a href="single-list.html">Pages</a></li> -->
+<!-- <li><a href="blog.html">Blog</a></li> -->
+<li><a href="contact.php">Contact</a></li>
+<!-- <li><a href="single-blog.html">CHAT WITH US</a></li> -->
 </ul>
 </div>
 </div>
@@ -98,13 +135,7 @@ info.kigalihouses@gmail.com
 </section>
 <!--  Page top end -->
 
-<!-- Breadcrumb -->
-<div class="site-breadcrumb">
-<div class="container">
-<a href=""><i class="fa fa-home"></i>Home</a>
-<span><i class="fa fa-angle-right"></i>Single Listing</span>
-</div>
-</div>
+<br>
 
 <!-- Page -->
 <section class="page-section">
@@ -143,6 +174,7 @@ info.kigalihouses@gmail.com
 </div>
 <div class="col-xl-4">
 <a href="#" class="price-btn">Rwfs4,500,000</a>
+<a href="admin/signin.php" class="price-btn pull-right"  style="background: #34574d;">Book This House</a>
 </div>
 </div>
 <h3 class="sl-sp-title">Property Details</h3>
@@ -184,49 +216,8 @@ info.kigalihouses@gmail.com
 <p><i class="fa fa-check-circle-o"></i> Electric Range</p>
 </div>
 </div>
-<h3 class="sl-sp-title bd-no">Floorplans</h3>
-<div id="accordion" class="plan-accordion">
-<div class="panel">
-<div class="panel-header" id="headingOne">
-<button class="panel-link active" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapse1">First Floor: <span>660 sq ft</span>	<i class="fa fa-angle-down"></i></button>
-</div>
-<div id="collapse1" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-header" id="headingTwo">
-<button class="panel-link" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">Second Floor:<span>610 sq ft.</span>	<i class="fa fa-angle-down"></i>
-</button>
-</div>
-<div id="collapse2" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-<div class="panel">
-<div class="panel-header" id="headingThree">
-<button class="panel-link" data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">Third Floor :<span>580 sq ft</span>	<i class="fa fa-angle-down"></i>
-</button>
-</div>
-<div id="collapse3" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-<div class="panel-body">
-<img src="img/plan-sketch.jpg" alt="">
-</div>
-</div>
-</div>
-</div>
 
-<h3 class="sl-sp-title bd-no">Video</h3>
-<div class="perview-video">
-<img src="img/video.jpg" alt="">
-<a href="https://www.youtube.com/watch?v=v13nSVp6m5I" class="video-link"><img src="img/video-btn.png" alt=""></a>
-</div>
-<h3 class="sl-sp-title bd-no">Location</h3>
-<div class="pos-map" id="map-canvas"></div>
+
 </div>
 </div>
 <!-- sidebar -->
@@ -244,11 +235,13 @@ info.kigalihouses@gmail.com
 </div>
 <div class="contact-form-card">
 <h5>Do you have any question?</h5>
-<form>
-<input type="text" placeholder="Your name">
-<input type="text" placeholder="Your email">
-<textarea placeholder="Your question"></textarea>
-<button>SEND</button>
+<form method="post" action="admin/class/feedbackControler.php">
+<input type="text" name="name" placeholder="Your name">
+<input type="text"  name="email" placeholder="Your email">
+<textarea  name="message" placeholder="Your question"></textarea>
+<input type="hidden" name="house_id" value="1">
+<input type="hidden" name="link" value="../../single_list.php">
+<button type="submit" name="send_feedback">SEND</button>
 </form>
 </div>
 <div class="related-properties">
@@ -273,33 +266,12 @@ info.kigalihouses@gmail.com
 </div>
 <a href="#" class="rp-price">$2,500/month</a>
 </div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/4.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="rp-info">
-<h5>28 Quaker Ridge Road, Manhasset</h5>
-<p><i class="fa fa-map-marker"></i>28 Quaker Ridge Road, Manhasset</p>
-</div>
-<a href="#" class="rp-price">$5,600,000</a>
-</div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/5.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="rp-info">
-<h5>Sofi Berryessa 750 N King Road</h5>
-<p><i class="fa fa-map-marker"></i>Sofi Berryessa 750 N King Road</p>
-</div>
-<a href="#" class="rp-price">$1,600/month</a>
-</div>
 </div>
 </div>
 </div>
 </div>
 </section>
 <!-- Page end -->
-
 
 <!-- Clients section -->
 <div class="clients-section">
@@ -418,6 +390,66 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <!-- load for map -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0YyDTa0qqOjIerob2VTIwo_XVMhrruxo"></script>
 <script src="js/map-2.js"></script>
+<!-- PNotify -->
+<script src="admin/pnotify/dist/pnotify.js"></script>
+<script src="admin/pnotify/dist/pnotify.buttons.js"></script>
+<script src="admin/pnotify/dist/pnotify.nonblock.js"></script>
 
+<!-- Register New Admin -->
+<div class="modal fade" id="register" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+<div class="modal-content modal-lg">
+  <div class="modal-header">
+    <h5 class="modal-title" style="color: #272930" id="exampleModalLabel">KHC <span class="text-muted"> | <small> CLIENT REGISTRATION AND PAYMENT</small> </span> </h5>
+    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form class="" action="class/houseOwnersControler.php" method="post">
+    <div class="modal-body">
+      <div class="row">
+          <div class="col-md-7" style="border-right: 1px solid gray;">
+            <input type="text" name="fname" placeholder="First Name" class="form-control">
+            <br>
+            <input type="text" name="lname" placeholder="Last Name" class="form-control">
+            <br>
+            <input type="email" name="email" placeholder="Email" class="form-control">
+            <br>
+            <input type="number" name="phone" placeholder="Telephone" class="form-control">
+            <br>
+            <input type="text" name="adress" placeholder="Adress" class="form-control">
+            <br>
+            <select name="status"  value="<?php echo $show['adress'];?>" class="form-control">
+                <option value="1">Activate</option>
+                <option value="0">Desactivate</option>
+            </select>
+          </div>
+          <div class="col-md-5">
+            <input type="text" name="fname" placeholder="First Name" class="form-control">
+            <br>
+            <input type="text" name="lname" placeholder="Last Name" class="form-control">
+            <br>
+            <input type="email" name="email" placeholder="Email" class="form-control">
+            <br>
+            <input type="number" name="phone" placeholder="Telephone" class="form-control">
+            <br>
+            <input type="text" name="adress" placeholder="Adress" class="form-control">
+            <br>
+            <select name="status"  value="<?php echo $show['adress'];?>" class="form-control">
+                <option value="1">Activate</option>
+                <option value="0">Desactivate</option>
+            </select>
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button style="background: lightgrey; Color: white;" class="btn-t  btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+      <button type="submit" name="add"  style="background: #4e73df;" class="btn-t  btn-primary">Register</button>
+    </div>
+  </form>
+</div>
+</div>
+</div>
+<?php $_SESSION['sessData']=''; ?>
 </body>
 </html>

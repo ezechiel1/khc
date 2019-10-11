@@ -22,6 +22,7 @@
     border-radius: 0rem;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
+
 </style>
 <!-- Footer -->
 <footer class="sticky-footer bg-white">
@@ -56,8 +57,8 @@
       </div>
       <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-        <a class="btn btn-primary" href="views/logout.php">Logout</a>
+        <button style="border-radius: 0px;" class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+        <a style="border-radius: 0px;" class="btn btn-primary" href="views/logout.php">Logout</a>
       </div>
     </div>
   </div>

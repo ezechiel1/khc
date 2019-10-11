@@ -3,7 +3,7 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List of House Owners
+              <h6 class="m-0 font-weight-bold text-primary">Register House
                 </h6>
             </div>
             <div class="card-body">
@@ -18,20 +18,17 @@
                       <br>
                       <input type="text" required name="price" placeholder="Price" class="form-control">
                       <br>
-                      <select name="district" required class="form-control">
+                      <select name="district" id="district" onchange="getSectors();" required class="form-control">
                           <option value="" hidden>Select District</option>
 <?php $queryD=$db->getRows('district',array('order by'=>'name asc'));
 if(!empty($queryD)): foreach($queryD as $getD): ?>
-                          <option value="<?php echo $getD['id']; ?>"><?php echo $getD['name']; ?></option>
+                          <option value="<?php echo $getD['id']; ?>"><?php echo $getD['district_name']; ?></option>
 <?php endforeach; endif; ?>
                       </select>
                       <br>
-                      <select name="sector" required class="form-control">
+                      <select name="sector" id="display" required class="form-control">
                           <option value="" hidden>Select Sector</option>
-  <?php $queryD=$db->getRows('sector',array('order by'=>'name asc'));
-  if(!empty($queryD)): foreach($queryD as $getD): ?>
-                          <option value="<?php echo $getD['id']; ?>"><?php echo $getD['name']; ?></option>
-  <?php endforeach; endif; ?>
+
                       </select>
                       <br>
                       <input type="text" required name="adress" placeholder="Adress ex. Cafe de Gisozi" class="form-control">

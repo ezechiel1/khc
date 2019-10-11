@@ -376,20 +376,17 @@ class DB{
     }
 
 
-    public function getTotalSubProduct($subcat){
-        $sql ="SELECT  * from subcategory inner join category on subcategory.categoryID=category.categoryID WHERE subcategory.subCategoryID='$subcat'";
-        $result = $this->db->query($sql);
-            if($result->num_rows > 0){
-                $gtbl = $result->fetch_assoc();
-                $table_product=$gtbl['table_product'];
-
-            $sql ="SELECT  COUNT(*) AS totSub from  ".$table_product." where subCategoryID='$subcat'";
+    public function getTotal($tableName, $condition){
+          if($condition=='all'):
+            $sql ="SELECT  COUNT(*) AS totalItems from  ".$tableName." ";
+          else:
+            $sql ="SELECT  COUNT(*) AS totalItems from  ".$tableName." where '$condition'";
+          endif;
             $result = $this->db->query($sql);
                 if($result->num_rows > 0){
                     $row = $result->fetch_assoc();
-                        $data = $row['totSub'];
-            }
-        }
+                        $data = $row['totalItems'];
+                }
         return !empty($data)?$data:0;
     }
 

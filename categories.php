@@ -1,6 +1,103 @@
-<?php
-	include("header.php");
+<?php 	session_start();
+	//load and initialize database class
+	require_once 'admin/core/db.php';
+	$db = new DB();
+  //Include Ajax
+  include('ajax.php');
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>KIGALI HOUSE CONNECT - Page Template</title>
+<meta charset="UTF-8">
+<meta name="description" content="KIGALI HOUSE Landing Page Template">
+<meta name="keywords" content="KIGALI HOUSE, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Favicon -->
+<link href="img/favicon.ico" rel="shortcut icon"/>
+<link rel="icon" type="img/png" href="img/icons/favicon.ico"/>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+
+<!-- Stylesheets -->
+<link rel="stylesheet" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" href="css/font-awesome.min.css"/>
+<link rel="stylesheet" href="css/animate.css"/>
+<link rel="stylesheet" href="css/owl.carousel.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style media="screen">
+.filter-form {
+	padding: 31px;
+	background: #30caa0;
+	border-radius: 3px;
+}
+.site-breadcrumb {
+    padding: 10px 0;
+}
+</style>
+</head>
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+<div class="loader"></div>
+</div>
+
+<!-- Header section -->
+<header class="header-section">
+<div class="header-top">
+<div class="container">
+<div class="row">
+<div class="col-lg-6 header-top-left">
+<div class="top-info">
+<i class="fa fa-phone"></i>
+(+250) 784 077 896
+</div>
+<div class="top-info">
+<i class="fa fa-envelope"></i>
+info.kigalihouses@gmail.com
+</div>
+</div>
+
+<div class="col-lg-6 text-lg-right header-top-right">
+<div class="top-social">
+<a href=""><i class="fa fa-facebook"></i></a>
+<a href=""><i class="fa fa-twitter"></i></a>
+<a href=""><i class="fa fa-instagram"></i></a>
+<a href=""><i class="fa fa-pinterest"></i></a>
+<a href=""><i class="fa fa-linkedin"></i></a>
+</div>
+<div class="user-panel">
+<a href="admin/register.php"><i class="fa fa-user-circle-o"></i> Register</a>
+<a href="admin/index.php"><i class="fa fa-sign-in"></i> Login</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container">
+<div class="row">
+<div class="col-12">
+<div class="site-navbar">
+<div class="nav-switch">
+<i class="fa fa-bars"></i>
+</div>
+<ul class="main-menu">
+<li><a href="index.php">Home</a></li>
+<li><a href="categories.php">FEATURED LISTING</a></li>
+<li><a href="about.php">ABOUT US</a></li>
+<!-- <li><a href="single-list.html">Pages</a></li> -->
+<!-- <li><a href="blog.html">Blog</a></li> -->
+<li><a href="contact.php">Contact</a></li>
+<!-- <li><a href="single-blog.html">CHAT WITH US</a></li> -->
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Header section end -->
+
+
 <!-- Page top section -->
 <section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
 <div class="container text-white">
@@ -9,50 +106,77 @@
 </section>
 <!--  Page top end -->
 <center>
-<a href="family2sales.html"><div class="sale-notic">FOR Sale</div></a>
-<a href="family2rent.html"><div class="rent-notic">FOR Rent</div></a>
+<!-- Filter form section -->
+<div style="margin-top: -5%;}" class="filter-search">
+<div class="container">
+<form class="filter-form">
+<div class="form-group row">
+    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
+        <option value="" hidden>District</option>
+<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
+if(!empty($alld)): foreach($alld as $getd):?>
+        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
+<?php endforeach; endif; ?>
+    </select>
+    <select id="display" class="col-md-3">
+        <option value="" hidden>Sector</option>
+    </select>
+    <input type="text" class="col-md-3" placeholder="Enter a street name, address number or keyword">
+    <style media="screen">
+      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
+    </style>
+    <button class="btn btn-sm n col-md-2 fa fa-search" style="background: black; color: white;" > SEARCH</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Filter form section end -->
+<a href="categories-for-sale.php"><div class="sale-notic">FOR Sale</div></a>
+<a href="categories-for-rent.php"><div class="rent-notic">FOR Rent</div></a>
 
 </center>
+<!-- Breadcrumb -->
 <br>
 <!-- page -->
 <section class="page-section categories-page">
 <div class="container">
 <div class="row">
-<div class="col-lg-4 col-md-6">
 
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kimisagara, KN 175 AV</h5>
-<p><i class="fa fa-map-marker"></i>Nyarugenge, Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 800 Square foot</p>
-<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
-</div>	
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Tony Holland</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
-</div>
-</div>
-<a href="#" class="room-price">$1,200,000</a><br>
-<a href="#" class="room-price">View The House</a>
-</div>
-</div>
+<div class="col-lg-4 col-md-6">
+				<div class="feature-item">
+					<a href="single_list.php">
+						<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
+						<div class="sale-notic">FOR SALE</div>
+						</div>
+						<div class="feature-text">
+								<div class="text-center feature-title">
+								<h5>Kimisagara, KN 175 AV</h5>
+								<p><i class="fa fa-map-marker"></i>Nyarugenge, Kigali City</p>
+								</div>
+								<div class="room-info-warp">
+								<div class="room-info">
+								<div class="rf-left">
+								<p><i class="fa fa-th-large"></i> 800 Square foot</p>
+								<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+								</div>
+								<div class="rf-right">
+								<p><i class="fa fa-car"></i> 2 Garages</p>
+								<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+								</div>
+								</div>
+								<div class="room-info">
+								<div class="rf-left">
+								<p><i class="fa fa-user"></i> Tony Holland</p>
+								</div>
+								<div class="rf-right">
+								<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+								</div>
+								</div>
+								</div>
+								<a href="#" class="room-price">$1,200,000</a>
+						</div>
+					</a>
+				</div>
 </div>
 <div class="col-lg-4 col-md-6">
 <!-- feature -->
@@ -74,7 +198,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 2 Garages</p>
 <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -82,7 +206,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$4,500,000</a>
@@ -109,7 +233,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 2 Garages</p>
 <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -117,7 +241,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$2,500/month</a>
@@ -144,7 +268,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 3 Garages</p>
 <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -152,7 +276,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$5,600,000</a>
@@ -179,7 +303,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -187,7 +311,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,600/month</a>
@@ -214,7 +338,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 7 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -222,7 +346,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,600,000</a>
@@ -249,7 +373,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 3 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -257,7 +381,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,250,000</a>
@@ -284,7 +408,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 2 Garages</p>
 <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -292,7 +416,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,230,000</a>
@@ -319,7 +443,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -327,7 +451,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,000/month</a>
@@ -354,7 +478,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 3 Garages</p>
 <p><i class="fa fa-bath"></i> 10 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -362,7 +486,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,600,000</a>
@@ -389,7 +513,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 3 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -397,7 +521,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$1,800/month</a>
@@ -424,7 +548,7 @@
 <div class="rf-right">
 <p><i class="fa fa-car"></i> 1 Garages</p>
 <p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>	
+</div>
 </div>
 <div class="room-info">
 <div class="rf-left">
@@ -432,7 +556,7 @@
 </div>
 <div class="rf-right">
 <p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>	
+</div>
 </div>
 </div>
 <a href="#" class="room-price">$235,000</a>

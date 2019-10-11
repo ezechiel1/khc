@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 04, 2019 at 02:03 AM
+-- Generation Time: Oct 10, 2019 at 03:32 AM
 -- Server version: 10.3.16-MariaDB
 -- PHP Version: 7.3.7
 
@@ -34,13 +34,20 @@ CREATE TABLE `admin` (
   `lname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `phone` varchar(50) NOT NULL,
-  `adress` int(11) NOT NULL,
+  `adress` varchar(50) NOT NULL,
   `status` int(11) NOT NULL,
   `pin` int(11) NOT NULL,
   `password` varchar(2000) NOT NULL,
   `profile` varchar(2000) NOT NULL,
   `c_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `fname`, `lname`, `email`, `phone`, `adress`, `status`, `pin`, `password`, `profile`, `c_date`) VALUES
+(1, 'Ezpk', 'Ezechiel', 'ezpk@gmail.com', '078564543456', 'Gisozi', 1, 1, '0b639864a6cfd746081db8c9a75671e91ad35383', 'img/profile/u.png', '2019-10-08 21:22:25');
 
 -- --------------------------------------------------------
 
@@ -100,6 +107,35 @@ INSERT INTO `district` (`id`, `district_name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE `feedback` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `message` text NOT NULL,
+  `house_id` int(11) NOT NULL,
+  `c_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `feedback`
+--
+
+INSERT INTO `feedback` (`id`, `name`, `email`, `message`, `house_id`, `c_date`) VALUES
+(1, 'hh', 'hh@gmail.com', 'fghjkjhgfgk', 0, '2019-10-10 00:34:44'),
+(2, 'jkj', 'ghjh@hjh.com', 'fghjkhg', 0, '2019-10-10 00:36:47'),
+(3, 'Ezechie', 'eze@gmail.com', 'hey i want the answer??', 0, '2019-10-10 00:41:53'),
+(4, 'Ezechie', 'ezechiel@gmai.com', 'hey there .. the houses are ...', 0, '2019-10-10 00:43:21'),
+(5, 'EzechieL', 'ezechiel@gmai.com', 'good evening i need to find a house of 5 rooms', 0, '2019-10-10 00:45:07'),
+(6, 'hh', 'hh@gmail.com', 'hey there ..', 0, '2019-10-10 00:46:06'),
+(7, 'dvdf', 'ghjh@hjh.com', 'csdcs', 0, '2019-10-10 01:18:16'),
+(8, 'svcws', 'hh@gmail.com', 'svcvse', 1, '2019-10-10 01:21:24');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `houses`
 --
 
@@ -143,6 +179,15 @@ CREATE TABLE `house_owners` (
   `profile` varchar(2000) NOT NULL,
   `c_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `house_owners`
+--
+
+INSERT INTO `house_owners` (`id`, `fname`, `lname`, `email`, `phone`, `adress`, `status`, `pin`, `password`, `profile`, `c_date`) VALUES
+(1, 'eze', 'eze', 'eze@gmail.com', '07856876', 'Gisozi', 1, 1, '0b639864a6cfd746081db8c9a75671e91ad35383', 'img/profile/u.png', '2019-10-08 22:41:39'),
+(2, 'aa', 'bbb', 'aabbb@gmail.com', '08787545', 'g', 1, 1, '0b639864a6cfd746081db8c9a75671e91ad35383', 'img/profile/u.png', '2019-10-08 22:45:27'),
+(3, 'OWNER', 'OWNER', 'owner@gmail.com', '08798876', 'Gisozi', 1, 1, '0b639864a6cfd746081db8c9a75671e91ad35383', 'img/profile/u.png', '2019-10-09 19:41:57');
 
 -- --------------------------------------------------------
 
@@ -250,6 +295,12 @@ ALTER TABLE `district`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `feedback`
+--
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `houses`
 --
 ALTER TABLE `houses`
@@ -281,7 +332,7 @@ ALTER TABLE `sector`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `booking`
@@ -302,6 +353,12 @@ ALTER TABLE `district`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `feedback`
+--
+ALTER TABLE `feedback`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
 -- AUTO_INCREMENT for table `houses`
 --
 ALTER TABLE `houses`
@@ -311,7 +368,7 @@ ALTER TABLE `houses`
 -- AUTO_INCREMENT for table `house_owners`
 --
 ALTER TABLE `house_owners`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `payment`

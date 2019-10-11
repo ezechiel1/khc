@@ -1,4 +1,10 @@
-<?php 	session_start(); ?>
+<?php 	session_start();
+	//load and initialize database class
+	require_once 'admin/core/db.php';
+	$db = new DB();
+  //Include Ajax
+  include('ajax.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,37 +26,17 @@
 <link rel="stylesheet" href="css/animate.css"/>
 <link rel="stylesheet" href="css/owl.carousel.css"/>
 <link rel="stylesheet" href="css/style.css"/>
-<!-- PNotify -->
-<link href="admin/pnotify/dist/pnotify.css" rel="stylesheet">
-<link href="admin/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
-<link href="admin/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
-
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
-<style>
-/* pnotify */
-.bg-fblue, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
-   background-color: #30caa0 !important;
-   color: white;
-   border: none;
+<style media="screen">
+.filter-form {
+	padding: 31px;
+	background: #30caa0;
+	border-radius: 3px;
+}
+.site-breadcrumb {
+    padding: 10px 0;
 }
 </style>
 </head>
-<?php
-$sssData=array();
-$sssData=$_SESSION['sessData'];
-if($sssData!=''):
-?>
-<body onpageshow="new PNotify({
-								title: 'Notification',
-								text: '<?php echo $sssData['status']['msg'];?>',
-								type: 'info',
-								styling: 'bootstrap3'
-						});">
-</body>
-<?php endif; ?>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -101,10 +87,9 @@ info.kigalihouses@gmail.com
 <li><a href="categories.php">FEATURED LISTING</a></li>
 <li><a href="about.php">ABOUT US</a></li>
 <!-- <li><a href="single-list.html">Pages</a></li> -->
-<!-- <li><a href="blog.php">Blog</a></li> -->
+<!-- <li><a href="blog.html">Blog</a></li> -->
 <li><a href="contact.php">Contact</a></li>
 <!-- <li><a href="single-blog.html">CHAT WITH US</a></li> -->
-</ul>
 </div>
 </div>
 </div>
@@ -116,52 +101,162 @@ info.kigalihouses@gmail.com
 <!-- Page top section -->
 <section class="page-top-section set-bg" data-setbg="img/page-top-bg.jpg">
 <div class="container text-white">
-<h2>Contact</h2>
+<h2>Featured Listings</h2>
 </div>
 </section>
 <!--  Page top end -->
-
-
-<section class="hero-section set-bg" data-setbg="img/index3.jpg">
-<!-- page -->
-<section class="page-section blog-page">
+<center>
+<!-- Filter form section -->
+<div style="margin-top: -5%;}" class="filter-search">
 <div class="container">
-<div id="map-canvas"></div>
-<div class="contact-info-warp">
-<p><i class="fa fa-map-marker"></i>3711-2880 Kabuguru St, Nyamirambo, Nyarugenge </p>
-<p><i class="fa fa-envelope"></i>info.kigalihouses@gmail.com</p>
-<p><i class="fa fa-phone"></i>(+250) 784 077 896</p>
-</div>
-<div class="row">
-<div class="col-lg-6">
-<img src="img/contact.jpg" alt="">
-</div>
-<div class="col-lg-6">
-<div class="contact-right">
-<div class="section-title">
-<br>
-</div>
-<form  method="post" action="admin/class/feedbackControler.php" class="contact-form">
-  <br><br>
-  <h2><b>Get in touch</b></h2>
-  <b><p>Browse houses and flats for sale and to rent in your area</p></b>
-<div class="row">
-<div class="col-md-6">
-<input type="text" required name="name" placeholder="Your name">
-</div>
-<div class="col-md-6">
-<input type="text" required name="email" placeholder="Your email">
-</div>
-<div class="col-md-12">
-<textarea name="message" required placeholder="Your message"></textarea>
-<input type="hidden" name="house_id" value="0">
-<input type="hidden" name="link" value="../../contact.php">
-<button type="submit" name="send_feedback" class="site-btn">SUBMIT NOW</button>
-</div>
+<form class="filter-form">
+<div class="form-group row">
+    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
+        <option value="" hidden>District</option>
+<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
+if(!empty($alld)): foreach($alld as $getd):?>
+        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
+<?php endforeach; endif; ?>
+    </select>
+    <select id="display" class="col-md-3">
+        <option value="" hidden>Sector</option>
+    </select>
+    <input type="text" class="col-md-3" placeholder="Enter a street name, address number or keyword">
+    <style media="screen">
+      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
+    </style>
+    <button class="btn btn-sm n col-md-2 fa fa-search" style="background: black; color: white;" > SEARCH</button>
 </div>
 </form>
 </div>
 </div>
+<!-- Filter form section end -->
+<a href="categories.php"><div class="sale-notic">All</div></a>
+<a href="categories-for-rent.php"><div class="rent-notic">For Rent</div></a>
+
+</center>
+<!-- Breadcrumb -->
+<br>
+<!-- page -->
+<section class="page-section categories-page">
+<div class="container">
+<div class="row">
+
+<div class="col-lg-4 col-md-6">
+				<div class="feature-item">
+					<a href="single_list.php">
+						<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
+						<div class="sale-notic">FOR SALE</div>
+						</div>
+						<div class="feature-text">
+								<div class="text-center feature-title">
+								<h5>Kimisagara, KN 175 AV</h5>
+								<p><i class="fa fa-map-marker"></i>Nyarugenge, Kigali City</p>
+								</div>
+								<div class="room-info-warp">
+								<div class="room-info">
+								<div class="rf-left">
+								<p><i class="fa fa-th-large"></i> 800 Square foot</p>
+								<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+								</div>
+								<div class="rf-right">
+								<p><i class="fa fa-car"></i> 2 Garages</p>
+								<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+								</div>
+								</div>
+								<div class="room-info">
+								<div class="rf-left">
+								<p><i class="fa fa-user"></i> Tony Holland</p>
+								</div>
+								<div class="rf-right">
+								<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+								</div>
+								</div>
+								</div>
+								<a href="#" class="room-price">$1,200,000</a>
+						</div>
+					</a>
+				</div>
+</div>
+<div class="col-lg-4 col-md-6">
+<!-- feature -->
+<div class="feature-item">
+<div class="feature-pic set-bg" data-setbg="img/feature/2.jpg">
+<div class="sale-notic">FOR SALE</div>
+</div>
+<div class="feature-text">
+<div class="text-center feature-title">
+<h5>Muhima , KN 145 AV</h5>
+<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
+</div>
+<div class="room-info-warp">
+<div class="room-info">
+<div class="rf-left">
+<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
+<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
+</div>
+<div class="rf-right">
+<p><i class="fa fa-car"></i> 2 Garages</p>
+<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
+</div>
+</div>
+<div class="room-info">
+<div class="rf-left">
+<p><i class="fa fa-user"></i> Gina Wesley</p>
+</div>
+<div class="rf-right">
+<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+</div>
+</div>
+</div>
+<a href="#" class="room-price">$4,500,000</a>
+</div>
+</div>
+</div>
+<div class="col-lg-4 col-md-6">
+<!-- feature -->
+<div class="feature-item">
+<div class="feature-pic set-bg" data-setbg="img/feature/3.jpg">
+<div class="sale-notic">FOR SALE</div>
+</div>
+<div class="feature-text">
+<div class="text-center feature-title">
+<h5>Nyamirambo , KN 158 AV</h5>
+<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
+</div>
+<div class="room-info-warp">
+<div class="room-info">
+<div class="rf-left">
+<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
+<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
+</div>
+<div class="rf-right">
+<p><i class="fa fa-car"></i> 2 Garages</p>
+<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
+</div>
+</div>
+<div class="room-info">
+<div class="rf-left">
+<p><i class="fa fa-user"></i> Gina Wesley</p>
+</div>
+<div class="rf-right">
+<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+</div>
+</div>
+</div>
+<a href="#" class="room-price">$2,500/month</a>
+</div>
+</div>
+</div>
+
+
+</div>
+<div class="site-pagination">
+<a href="categories1.html">1</a>
+<a href="categories2.html">2</a>
+<a href="categories3.html">3</a>
+<a href="categories4.html">4</a>
+<a href="categories5.html">5</a>
 </div>
 </div>
 </section>
@@ -242,9 +337,6 @@ info.kigalihouses@gmail.com
 <form class="footer-newslatter-form">
 <input type="text" placeholder="Email address">
 <button><i class="fa fa-send"></i></button>
-
-
-
 </form>
 </div>
 </div>
@@ -275,10 +367,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="js/masonry.pkgd.min.js"></script>
 <script src="js/magnific-popup.min.js"></script>
 <script src="js/main.js"></script>
-<!-- PNotify -->
-<script src="admin/pnotify/dist/pnotify.js"></script>
-<script src="admin/pnotify/dist/pnotify.buttons.js"></script>
-<script src="admin/pnotify/dist/pnotify.nonblock.js"></script>
 </body>
-<?php $_SESSION['sessData']=''; ?>
+</html>
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/masonry.pkgd.min.js"></script>
+<script src="js/magnific-popup.min.js"></script>
+<script src="js/main.js"></script>
+</body>
 </html>

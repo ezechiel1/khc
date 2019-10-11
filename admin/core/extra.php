@@ -1,10 +1,10 @@
 <?php
 /**
- * 
+ *
  */
 class Extra
 {
-	
+
 	function __construct()
 	{
 		# code...
@@ -80,7 +80,7 @@ class Extra
 			header("Content-Length: ".filesize($pathFile));
 			readfile($pathFile);
 	}
-		
+
 }
 
 

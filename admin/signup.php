@@ -19,18 +19,24 @@
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
   <style media="screen">
   .bg-register-image {
-  background: url(img/login.jpg);
+  background: url(../img/feature/6.jpg);
       background-position-x: 0%;
       background-position-y: 0%;
       background-size: auto auto;
   background-position: center;
   background-size: cover;
 }
+.bg-gradient-primary {
+    background: url(../img/feature/6.jpg);
+    background-size: cover;
+}
   </style>
 </head>
 
 <body class="bg-gradient-primary">
+
   <div class="container">
+
     <div class="card o-hidden border-0 shadow-lg my-5">
       <div class="card-body p-0">
         <!-- Nested Row within Card Body -->
@@ -39,9 +45,9 @@
           <div class="col-lg-7">
             <div class="p-5">
               <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                <h1 class="h4 text-gray-900 mb-4">Create an Client Account!</h1>
               </div>
-              <form method="post"  action="class/houseOwnersControler.php"  enctype="multipart/form-data" class="user">
+              <form method="post"  enctype="multipart/form-data" action="class/houseOwnersControler.php" class="user">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
                     <input type="text" name="fname" required class="form-control form-control-user" id="exampleFirstName" placeholder="First Name">
@@ -66,7 +72,7 @@
                     <input type="password" name="password" required class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
                   </div>
                   <div class="col-sm-6"><center>
-                    <input type="file" style="height: 20px;" name="picture" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Picture"></center>
+                    <input type="file" style="height: 20px;" name="profile" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Picture"></center>
                   </div>
                 </div>
                 <button type="submit" name="register" class="btn btn-primary btn-user btn-block">
@@ -85,6 +91,7 @@
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- Bootstrap core JavaScript-->

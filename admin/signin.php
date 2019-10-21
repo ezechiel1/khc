@@ -1,4 +1,5 @@
 <?php session_start();
+if($_SESSION['house_id']=='') header('location: ../index.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +72,7 @@ if($sssData!='' and isset($_SESSION['sessData'])):
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Clients Sign In</h1>
                   </div>
-                  <form method="post" action="class/loginControler.php" class="user">
+                  <form method="post" action="class/signinControler.php" class="user">
                     <div class="form-group">
                       <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address...">
                     </div>

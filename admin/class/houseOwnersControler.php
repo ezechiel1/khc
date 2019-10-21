@@ -25,7 +25,7 @@
 					'status' => 0,
 					'pin' => 0,
 					'password' => sha1($_POST['password']),
-					'profile' => $profile,
+					'profile' => 'img/profile/'.$profile,
 					'c_date' => $db->showDate('datetime')
 				 )
 				;

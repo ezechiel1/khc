@@ -1,4 +1,41 @@
-<?php 	session_start(); ?>
+<?php
+  session_start();
+  if(!isset($_GET['request'])) header('location: index.php');
+  if(!isset($_SESSION['sessData'])) $_SESSION['sessData']='';
+	//load and initialize database class
+	require_once 'admin/core/db.php';
+	$db = new DB();
+  $house_id = $_GET['request'];
+  $house_info = $db->getRows('houses', array('where'=>array('id'=>$house_id)));
+  if(!empty($house_info)): foreach($house_info as $show):
+    $district_info = $db->getRows('district', array('where'=>array('id'=>$show['district_id'])));
+    if(!empty($district_info)): foreach($district_info as $showDistrict):
+      $sector_info = $db->getRows('sector', array('where'=>array('id'=>$show['sector_id'])));
+      if(!empty($sector_info)): foreach($sector_info as $showSector):
+        $house_owner_info = $db->getRows('house_owners', array('where'=>array('id'=>$show['house_owner_id'])));
+        if(!empty($house_owner_info)): foreach($house_owner_info as $showOwner):
+          $category = $show['category'];
+          $price = $show['price'];
+          $main_picture = $show['main_picture'];
+          $picture_1 = $show['picture_1'];
+          $picture_2 = $show['picture_2'];
+          $picture_3 = $show['picture_3'];
+          $district = $showDistrict['district_name'];
+          $sector = $showSector['sector_name'];
+          $location = $show['location'];
+          $adress = $show['adress'];
+          $garage = $show['garage'];
+          $bathroom = $show['bathroom'];
+          $bedroom = $show['bedroom'];
+          $house_owner_name = $showOwner['fname'].' '.$showOwner['lname'];
+          $house_owner_email= $showOwner['email'];
+          $house_owner_phone= $showOwner['phone'];
+          $house_owner_adress=$showOwner['adress'];
+          $house_owner_profile = $showOwner['profile'];
+          $description = $show['description'];
+          //Getting sessio house ID
+          $_SESSION['house_id'] = $house_id;
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,6 +85,26 @@
     min-width: 200px;
     border-radius: 2px;
     margin-bottom: 70px;
+}
+.rent-booked {
+    background: #30caa0;
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    background: #e94646;
+    padding: 7px 13px;
+    display: inline-block;
+    border-radius: 2px;
+    position: relative;
+    z-index: 3;
+    margin: 20px;
+}
+
+.description {
+    margin-bottom: 0px;
+}
+h5 {
+    font-size: 18px;
 }
 </style>
 
@@ -143,94 +200,97 @@ info.kigalihouses@gmail.com
 <div class="row">
 <div class="col-lg-8 single-list-page">
 <div class="single-list-slider owl-carousel" id="sl-slider">
-<div class="sl-item set-bg" data-setbg="img/single-list-slider/1.jpg">
-<div class="sale-notic">FOR SALE</div>
+<div class="sl-item set-bg" data-setbg="img/pictures/<?php echo $main_picture; ?>">
+  <?php if($_GET['status']=='booked'): ?> <div class="rent-booked" style="background: #30caa0;">BOOKED</div>
+  <?php elseif($category=='For Sale'): ?> <div class="sale-notic">FOR SALE</div>
+  <?php elseif($category=='For Rent'): ?> <div class="rent-notic">FOR Rent</div>
+  <?php endif; ?>
 </div>
-<div class="sl-item set-bg" data-setbg="img/single-list-slider/2.jpg">
-<div class="rent-notic">FOR Rent</div>
+<div class="sl-item set-bg" data-setbg="img/pictures/<?php echo $picture_1; ?>">
+  <?php if($_GET['status']=='booked'): ?> <div class="rent-booked" style="background: #30caa0;">BOOKED</div>
+  <?php elseif($category=='For Sale'): ?> <div class="sale-notic">FOR SALE</div>
+  <?php elseif($category=='For Rent'): ?> <div class="rent-notic">FOR Rent</div>
+  <?php endif; ?>
 </div>
-<div class="sl-item set-bg" data-setbg="img/single-list-slider/3.jpg">
-<div class="sale-notic">FOR SALE</div>
+<div class="sl-item set-bg" data-setbg="img/pictures/<?php echo $picture_2; ?>">
+  <?php if($_GET['status']=='booked'): ?> <div class="rent-booked" style="background: #30caa0;">BOOKED</div>
+  <?php elseif($category=='For Sale'): ?> <div class="sale-notic">FOR SALE</div>
+  <?php elseif($category=='For Rent'): ?> <div class="rent-notic">FOR Rent</div>
+  <?php endif; ?>
 </div>
-<div class="sl-item set-bg" data-setbg="img/single-list-slider/4.jpg">
-<div class="rent-notic">FOR Rent</div>
+<div class="sl-item set-bg" data-setbg="img/pictures/<?php echo $picture_3; ?>">
+  <?php if($_GET['status']=='booked'): ?> <div class="rent-booked" style="background: #30caa0;">BOOKED</div>
+  <?php elseif($category=='For Sale'): ?> <div class="sale-notic">FOR SALE</div>
+  <?php elseif($category=='For Rent'): ?> <div class="rent-notic">FOR Rent</div>
+  <?php endif; ?>
 </div>
-<div class="sl-item set-bg" data-setbg="img/single-list-slider/5.jpg">
-<div class="sale-notic">FOR SALE</div>
+<div class="sl-item set-bg" data-setbg="img/pictures/<?php echo $main_picture; ?>">
+  <?php if($_GET['status']=='booked'): ?> <div class="rent-booked" style="background: #30caa0;">BOOKED</div>
+  <?php elseif($category=='For Sale'): ?> <div class="sale-notic">FOR SALE</div>
+  <?php elseif($category=='For Rent'): ?> <div class="rent-notic">FOR Rent</div>
+  <?php endif; ?>
 </div>
 </div>
 <div class="owl-carousel sl-thumb-slider" id="sl-slider-thumb">
-<div class="sl-thumb set-bg" data-setbg="img/single-list-slider/1.jpg"></div>
-<div class="sl-thumb set-bg" data-setbg="img/single-list-slider/2.jpg"></div>
-<div class="sl-thumb set-bg" data-setbg="img/single-list-slider/3.jpg"></div>
-<div class="sl-thumb set-bg" data-setbg="img/single-list-slider/4.jpg"></div>
-<div class="sl-thumb set-bg" data-setbg="img/single-list-slider/5.jpg"></div>
+<div class="sl-thumb set-bg" data-setbg="img/pictures/<?php echo $main_picture; ?>"></div>
+<div class="sl-thumb set-bg" data-setbg="img/pictures/<?php echo $picture_1; ?>"></div>
+<div class="sl-thumb set-bg" data-setbg="img/pictures/<?php echo $picture_2; ?>"></div>
+<div class="sl-thumb set-bg" data-setbg="img/pictures/<?php echo $picture_3; ?>"></div>
+<div class="sl-thumb set-bg" data-setbg="img/pictures/<?php echo $main_picture; ?>"></div>
 </div>
 <div class="single-list-content">
 <div class="row">
 <div class="col-xl-8 sl-title">
-<h2>305 North Palm Drive</h2>
-<p><i class="fa fa-map-marker"></i>Beverly Hills, CA 90210</p>
+<h2><?php echo $location; ?> <?php echo $adress; ?></h2>
+<p><i class="fa fa-map-marker"></i><?php echo $sector; ?>, <?php echo $district; ?></p>
 </div>
-<div class="col-xl-4">
-<a href="#" class="price-btn">Rwfs4,500,000</a>
-<a href="admin/signin.php" class="price-btn pull-right"  style="background: #34574d;">Book This House</a>
+<div class="col-xl-4 row">
+<a href="#" class="price-btn col-md-4" style="margin-right: 5%;">Rwfs <?php echo number_format($price); ?></a>
+<?php if($_GET['status']=='available'): ?>
+  <a href="admin/signin.php" class="price-btn col-md-6 pull-right"  style="background: #34574d;">Book This House</a>
+<?php elseif($_GET['status']=='booked'): ?>
+  <a  class="price-btn col-md-7 pull-right"  style="background: #34574d; color: white;">This House is booked!</a>
+<?php endif; ?>
+
+</form>
 </div>
 </div>
 <h3 class="sl-sp-title">Property Details</h3>
 <div class="row property-details-list">
 <div class="col-md-4 col-sm-6">
-<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-<p><i class="fa fa-user"></i> Gina Wesley</p>
+<!-- <p><i class="fa fa-th-large"></i> 1500 Square foot</p> -->
+<p><i class="fa fa-bed"></i> <?php echo $bedroom; ?> Bedrooms</p>
+<p><i class="fa fa-user"></i> <?php echo $house_owner_name; ?></p>
 </div>
 <div class="col-md-4 col-sm-6">
-<p><i class="fa fa-car"></i> 2 Garages</p>
+<p><i class="fa fa-car"></i> <?php echo $garage; ?> Garages</p>
 <p><i class="fa fa-building-o"></i> Family Villa</p>
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
 </div>
 <div class="col-md-4">
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-<p><i class="fa fa-trophy"></i> 5 years age</p>
+<p><i class="fa fa-bath"></i> <?php echo $bathroom; ?> Bathrooms</p>
+<!-- <p><i class="fa fa-trophy"></i> 5 years age</p> -->
+<p><i class="fa fa-clock-o"></i> 1 days ago</p>
+
 </div>
 </div>
 <h3 class="sl-sp-title">Description</h3>
 <div class="description">
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus egestas fermentum ornareste. Donec index lorem. Vestibulum  aliquet odio, eget tempor libero. Cras congue cursus tincidunt. Nullam venenatis dui id orci egestas tincidunt id elit. Nullam ut vuputate justo. Integer lacnia pharetra pretium. Casan ante ipsum primis in faucibus orci luctus et ultrice.</p>
+<p style="width: 100%; word-wrap: break-word; text-align: justify; padding-bottom: 0px;"><?php echo $description; ?></p>
 </div>
-<h3 class="sl-sp-title">Property Details</h3>
-<div class="row property-details-list">
-<div class="col-md-4 col-sm-6">
-<p><i class="fa fa-check-circle-o"></i> Air conditioning</p>
-<p><i class="fa fa-check-circle-o"></i> Telephone</p>
-<p><i class="fa fa-check-circle-o"></i> Laundry Room</p>
-</div>
-<div class="col-md-4 col-sm-6">
-<p><i class="fa fa-check-circle-o"></i> Central Heating</p>
-<p><i class="fa fa-check-circle-o"></i> Family Villa</p>
-<p><i class="fa fa-check-circle-o"></i> Metro Central</p>
-</div>
-<div class="col-md-4">
-<p><i class="fa fa-check-circle-o"></i> City views</p>
-<p><i class="fa fa-check-circle-o"></i> Internet</p>
-<p><i class="fa fa-check-circle-o"></i> Electric Range</p>
-</div>
-</div>
-
 
 </div>
 </div>
 <!-- sidebar -->
 <div class="col-lg-4 col-md-7 sidebar">
 <div class="author-card">
-<div class="author-img set-bg" data-setbg="img/author.jpg"></div>
+<div class="author-img set-bg" data-setbg="<?php echo 'admin/'.$house_owner_profile; ?>"></div>
 <div class="author-info">
-<h5>Gina Wesley</h5>
-<p>Real Estate Agent</p>
+<h5><?php echo $house_owner_name; ?></h5>
+<p><?php echo $house_owner_adress; ?></p>
 </div>
 <div class="author-contact">
-<p><i class="fa fa-phone"></i>(567) 666 121 2233</p>
-<p><i class="fa fa-envelope"></i>ginawesley26@gmail.com</p>
+<p><i class="fa fa-phone"></i><?php echo $house_owner_phone ?></p>
+<p><i class="fa fa-envelope"></i><?php echo $house_owner_email; ?></p>
 </div>
 </div>
 <div class="contact-form-card">
@@ -244,29 +304,7 @@ info.kigalihouses@gmail.com
 <button type="submit" name="send_feedback">SEND</button>
 </form>
 </div>
-<div class="related-properties">
-<h2>Related Property</h2>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/1.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="rp-info">
-<h5>1963 S Crescent Heights Blvd</h5>
-<p><i class="fa fa-map-marker"></i>Los Angeles, CA 90034</p>
-</div>
-<a href="#" class="rp-price">$1,200,000</a>
-</div>
-<div class="rp-item">
-<div class="rp-pic set-bg" data-setbg="img/feature/2.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="rp-info">
-<h5>17 Sturges Road, Wokingham</h5>
-<p><i class="fa fa-map-marker"></i> Newtown, CT 06470</p>
-</div>
-<a href="#" class="rp-price">$2,500/month</a>
-</div>
-</div>
+
 </div>
 </div>
 </div>
@@ -453,3 +491,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <?php $_SESSION['sessData']=''; ?>
 </body>
 </html>
+<?php
+endforeach; endif;
+endforeach; endif;
+endforeach; endif;
+endforeach;
+else: echo '<center><span>Access denied to this page!</span></center>';
+endif;
+ ?>

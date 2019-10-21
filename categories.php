@@ -36,6 +36,15 @@
     padding: 10px 0;
 }
 </style>
+<style media="screen">
+.spad {
+	padding-top: 3px;
+	padding-bottom: 0px;
+}
+h5 {
+    font-size: 18px;
+}
+</style>
 </head>
 <body>
 <!-- Page Preloder -->
@@ -106,475 +115,117 @@ info.kigalihouses@gmail.com
 </section>
 <!--  Page top end -->
 <center>
-<!-- Filter form section -->
-<div style="margin-top: -5%;}" class="filter-search">
-<div class="container">
-<form class="filter-form">
-<div class="form-group row">
-    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
-        <option value="" hidden>District</option>
-<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
-if(!empty($alld)): foreach($alld as $getd):?>
-        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
-<?php endforeach; endif; ?>
-    </select>
-    <select id="display" class="col-md-3">
-        <option value="" hidden>Sector</option>
-    </select>
-    <input type="text" class="col-md-3" placeholder="Enter a street name, address number or keyword">
-    <style media="screen">
-      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
-    </style>
-    <button class="btn btn-sm n col-md-2 fa fa-search" style="background: black; color: white;" > SEARCH</button>
-</div>
-</form>
-</div>
-</div>
-<!-- Filter form section end -->
+	<!-- Filter form section -->
+	<div style="margin-top: -5%;" class="filter-search">
+	<div class="container">
+	<form class="filter-form">
+	<div class="form-group row">
+	    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
+	        <option value="" hidden>District</option>
+	<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
+	if(!empty($alld)): foreach($alld as $getd):?>
+	        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
+	<?php endforeach; endif; ?>
+	    </select>
+	    <select id="display" class="col-md-3">
+	        <option value="" hidden>Sector</option>
+	    </select>
+			<input type="hidden" name="" id="type" value="all">
+	    <input type="text" id="location" class="col-md-3" placeholder="Enter a street name, address number or keyword">
+	    <style media="screen">
+	      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
+	    </style>
+	    <button type="button" class="btn btn-sm n col-md-2 fa fa-search" onclick="make_search();" style="background: black; color: white;" > SEARCH</button>
+	</div>
+	</form>
+	</div>
+	</div>
+	<!-- Filter form section end -->
 <a href="categories-for-sale.php"><div class="sale-notic">FOR Sale</div></a>
 <a href="categories-for-rent.php"><div class="rent-notic">FOR Rent</div></a>
 
 </center>
 <!-- Breadcrumb -->
 <br>
+<span id="getSearch">
 <!-- page -->
 <section class="page-section categories-page">
 <div class="container">
 <div class="row">
-
+	<?php
+	if(!isset($_GET['range'])): $query= $db->getRows('houses', array('orderd by' => 'id asc', 'where'=>array('status'=>0)));
+	elseif(isset($_GET['range'])):
+		if($_GET['range']==1):
+			$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>0, 'limit'=>12,'where'=>array('status'=>0)));
+		elseif($_GET['range']==2):
+			$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>13, 'limit'=>12,'where'=>array('status'=>0)));
+		elseif($_GET['range']==3):
+			$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>25, 'limit'=>12,'where'=>array('status'=>0)));
+		elseif($_GET['range']==4):
+			$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>37, 'limit'=>12,'where'=>array('status'=>0)));
+		endif;
+	endif;
+	if(!empty($query)): $count=0; foreach($query as $show): $count++; ?>
 <div class="col-lg-4 col-md-6">
 				<div class="feature-item">
-					<a href="single_list.php">
-						<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
-						<div class="sale-notic">FOR SALE</div>
+					<a href="single_list.php?request=<?php echo $show['id'];?>&status=available">
+						<div class="feature-pic set-bg" data-setbg="<?php echo 'img/pictures/'.$show['main_picture']; ?>">
+						<?php if($show['category']=='For Sale'):?><div class="sale-notic"><?php echo $show['category'];?></div>
+						<?php elseif($show['category']=='For Rent'):?><div class="rent-notic"><?php echo $show['category'];?></div>
+					<?php endif; ?>
 						</div>
 						<div class="feature-text">
 								<div class="text-center feature-title">
-								<h5>Kimisagara, KN 175 AV</h5>
-								<p><i class="fa fa-map-marker"></i>Nyarugenge, Kigali City</p>
+								<h5><?php echo $show['adress'].'  '.$show['location']; ?></h5>
+								<?php $query1=$db->getRows('district', array('where'=>array('id'=>$show['district_id']))); if(!empty($query1)): foreach($query1 as $show1):
+									$query2=$db->getRows('sector', array('where'=>array('id'=>$show['district_id']))); if(!empty($query2)): foreach($query2 as $show2): ?>
+								<p><i class="fa fa-map-marker"></i> <?php echo $show2['sector_name']; ?>, <?php echo $show1['district_name']; ?>, Kigali City</p>
+							<?php endforeach; endif;
+						endforeach; endif; ?>
 								</div>
 								<div class="room-info-warp">
 								<div class="room-info">
 								<div class="rf-left">
-								<p><i class="fa fa-th-large"></i> 800 Square foot</p>
-								<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+								<p><i class="fa fa-bed"></i> <?php echo $show['bedroom']; ?> Bedrooms</p>
+								<?php $query2=$db->getRows('house_owners', array('where'=>array('id'=>$show['house_owner_id']))); if(!empty($query2)): foreach($query2 as $show2): ?>
+								<p><i class="fa fa-user"></i> <?php echo $show2['fname'].' '.$show2['lname']; ?></p>
+							<?php endforeach; endif; ?>
 								</div>
 								<div class="rf-right">
-								<p><i class="fa fa-car"></i> 2 Garages</p>
-								<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+								<p><i class="fa fa-car"></i> <?php echo $show['garage'];?> Garages</p>
+								<p><i class="fa fa-bath"></i> <?php echo $show['bathroom'];?> Bathrooms</p>
 								</div>
 								</div>
 								<div class="room-info">
 								<div class="rf-left">
-								<p><i class="fa fa-user"></i> Tony Holland</p>
+
 								</div>
 								<div class="rf-right">
-								<p><i class="fa fa-clock-o"></i> 1 days ago</p>
 								</div>
 								</div>
 								</div>
-								<a href="#" class="room-price">$1,200,000</a>
+							<a href="#" class="room-price">Rwfs <?php echo number_format($show['price']); ?></a>
 						</div>
 					</a>
 				</div>
 </div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/2.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Muhima , KN 145 AV</h5>
-<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$4,500,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/3.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Nyamirambo , KN 158 AV</h5>
-<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$2,500/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/4.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kimihurura , KG 258 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1200 Square foot</p>
-<p><i class="fa fa-bed"></i> 12 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 3 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Sasha Gordon </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$5,600,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/5.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kimironko KG 365 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 500 Square foot</p>
-<p><i class="fa fa-bed"></i> 4 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,600/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/6.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kacyiru KG 58 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 700 Square foot</p>
-<p><i class="fa fa-bed"></i> 7 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 7 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Sasha Gordon </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,600,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/7.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>1476 Harvard St NW Unit Ph</h5>
-<p><i class="fa fa-map-marker"></i> Washington, DC 20009</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 550 Square foot</p>
-<p><i class="fa fa-bed"></i> 7 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 3 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Adam Johnson</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,250,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/8.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>9633 Weathered Oak Ct</h5>
-<p><i class="fa fa-map-marker"></i> Bethesda, MD 208179</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1000 Square foot</p>
-<p><i class="fa fa-bed"></i> 6 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Ann Hathaway</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,230,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/9.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>2529 Marsh Hill Henry Rd Unit Mc</h5>
-<p><i class="fa fa-map-marker"></i> McHenry, MD 21541</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 550 Square foot</p>
-<p><i class="fa fa-bed"></i> 4 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i>  McHenry, MD 21541</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,000/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/10.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>6335 N Magnolia Ave Apt 1S</h5>
-<p><i class="fa fa-map-marker"></i> Chicago, IL 60660</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 2200 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 3 Garages</p>
-<p><i class="fa fa-bath"></i> 10 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Tony Holland </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,600,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/11.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>441 E Maywood Ct</h5>
-<p><i class="fa fa-map-marker"></i> Decatur, IL 62526</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i>   750 Square foot</p>
-<p><i class="fa fa-bed"></i> 5 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 3 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Chris Brown</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,800/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/12.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>712 Southland Circle Dr</h5>
-<p><i class="fa fa-map-marker"></i> Tuscola, IL 61953</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i>   200 Square foot</p>
-<p><i class="fa fa-bed"></i> 2 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i>  Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$235,000</a>
-</div>
-</div>
-</div>
+<?php endforeach; endif; ?>
 </div>
 <div class="site-pagination">
-<a href="categories1.html">1</a>
-<a href="categories2.html">2</a>
-<a href="categories3.html">3</a>
-<a href="categories4.html">4</a>
-<a href="categories5.html">5</a>
+<?php if($count>=0 and $count<=12): ?>
+<a href="categories.php?range=1">1</a>
+<?php endif; if($count>=13 and $count<=24): ?>
+<a href="categories.php?range=2">2</a>
+<?php endif; if($count>=25 and $count<=36): ?>
+<a href="categories.php?range=3">3</a>
+<?php endif; if($count>=37 and $count<=48): ?>
+<a href="categories.php?range">4</a>
+<?php endif; ?>
 </div>
 </div>
 </section>
 <!-- page end -->
-
+</span>
 
 <!-- Clients section -->
 <div class="clients-section">
@@ -667,7 +318,7 @@ if(!empty($alld)): foreach($alld as $getd):?>
 </div>
 <div class="copyright">
 <p>
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">kigalihouseconnect</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="" target="_blank">kigalihouseconnect</a>
 </p>
 </div>
 </div>

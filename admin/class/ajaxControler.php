@@ -10,5 +10,5 @@ if(isset($_POST['data'])):
 ?>
           <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['sector_name']; ?></option>
   <?php endforeach;
- endif;
+  endif;
 endif;?>

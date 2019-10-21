@@ -36,6 +36,9 @@
    color: white;
    border: none;
 }
+h5 {
+    font-size: 18px;
+}
 </style>
 </head>
 <?php

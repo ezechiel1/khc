@@ -51,17 +51,13 @@ if(isset($_POST['login'])){
                       $redirectURL = '../index.php';
                   else:
                       $_SESSION['id']=$user['id'];
-                      if($user['pin']==0): //when pin is 0
-                          $_SESSION['category']='house_owner';
-                          //set redirect url
-                          $redirectURL .= '../admin/change.php';
-                      else:
+
                           $_SESSION['category']='house_owner';
                           $sessData['status']['type'] = 'success';
                           $sessData['status']['msg']  = 'Welcome';
                           //set redirect url
                           $redirectURL .= 'principal.php?request=home';
-                      endif;
+            
                   endif;
               endforeach;
             else:

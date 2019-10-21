@@ -1,4 +1,5 @@
 <?php session_start();
+if($_SESSION['houseID']=='') header('location: signin.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,7 +72,7 @@ if($sssData!='' and isset($_SESSION['sessData'])):
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-4">Payment </h1>
                   </div>
-                  <form method="post" action="class/loginControler.php" >
+                  <form enctype="multipart/form-data" method="post" action="class/paymentControler.php" >
                     <div class="form-group">
                       <select name="bank_name" class="form-control form-control-user"  >
                           <option value="" hidden>Select Bank</option>

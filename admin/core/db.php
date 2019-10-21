@@ -380,7 +380,7 @@ class DB{
           if($condition=='all'):
             $sql ="SELECT  COUNT(*) AS totalItems from  ".$tableName." ";
           else:
-            $sql ="SELECT  COUNT(*) AS totalItems from  ".$tableName." where '$condition'";
+            $sql ="SELECT  COUNT(*) AS totalItems from  ".$tableName." where ".$condition."";
           endif;
             $result = $this->db->query($sql);
                 if($result->num_rows > 0){
@@ -400,10 +400,37 @@ class DB{
         return !empty($data)?$data:false;
     }
 
-    public function getCro($element){
-        $sql ="SELECT  * from  rwagri_crop
-        where rwagri_crop.Name  LIKE '%".$element."%' ";
+    public function searchHouse($district, $sector, $keyword, $category){
+     if($category=='all'):
+      if($district!='' and $sector!='' and $keyword!=''):
+        $sql ="SELECT  * from  houses
+        where status=0 and district_id='$district' and sector_id='$sector' and( location = '$keyword' or adress='$keyword')";
+      elseif($district=='' and $sector=='' and $keyword!=''):
+        $sql ="SELECT  * from  houses
+        where status=0 and (location = '$keyword' or adress='$keyword')";
+      elseif($district!='' and $sector=='' and $keyword==''):
+        $sql ="SELECT  * from  houses
+        where status=0 and district_id='$district'";
+      elseif($district!='' and $sector!='' and $keyword==''):
+        $sql ="SELECT  * from  houses
+        where status=0 and district_id='$district' and sector_id='$sector' ";
+      endif;
 
+     else:
+      if($district!='' and $sector!='' and $keyword!=''):
+        $sql ="SELECT  * from  houses
+        where category='$category' and status=0 and district_id='$district' and sector_id='$sector' and (location = '$keyword' or adress='$keyword')";
+      elseif($district=='' and $sector=='' and $keyword!=''):
+        $sql ="SELECT  * from  houses
+        where category='$category' and status=0 and (location = '$keyword' or adress='$keyword')";
+      elseif($district!='' and $sector=='' and $keyword==''):
+        $sql ="SELECT  * from  houses
+        where category='$category' and status=0 and district_id='$district'";
+      elseif($district!='' and $sector!='' and $keyword==''):
+        $sql ="SELECT  * from  houses
+        where category='$category' and status=0 and district_id='$district' and sector_id='$sector' ";
+      endif;
+    endif;
         $result = $this->db->query($sql);
 
 

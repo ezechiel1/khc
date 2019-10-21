@@ -35,6 +35,22 @@
 .site-breadcrumb {
     padding: 10px 0;
 }
+.section-title {
+    margin-bottom: 0px;
+}
+</style>
+<style media="screen">
+.spad {
+	padding-top: 3px;
+	padding-bottom: 0px;
+
+}
+.section-title {
+    margin-bottom: 0px;
+}
+h5 {
+    font-size: 18px;
+};
 </style>
 </head>
 <body>
@@ -106,161 +122,115 @@ info.kigalihouses@gmail.com
 </section>
 <!--  Page top end -->
 <center>
-<!-- Filter form section -->
-<div style="margin-top: -5%;}" class="filter-search">
-<div class="container">
-<form class="filter-form">
-<div class="form-group row">
-    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
-        <option value="" hidden>District</option>
-<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
-if(!empty($alld)): foreach($alld as $getd):?>
-        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
-<?php endforeach; endif; ?>
-    </select>
-    <select id="display" class="col-md-3">
-        <option value="" hidden>Sector</option>
-    </select>
-    <input type="text" class="col-md-3" placeholder="Enter a street name, address number or keyword">
-    <style media="screen">
-      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
-    </style>
-    <button class="btn btn-sm n col-md-2 fa fa-search" style="background: black; color: white;" > SEARCH</button>
-</div>
-</form>
-</div>
-</div>
-<!-- Filter form section end -->
+	<!-- Filter form section -->
+	<div style="margin-top: -5%;" class="filter-search">
+	<div class="container">
+	<form class="filter-form">
+	<div class="form-group row">
+	    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
+	        <option value="" hidden>District</option>
+	<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
+	if(!empty($alld)): foreach($alld as $getd):?>
+	        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
+	<?php endforeach; endif; ?>
+	    </select>
+	    <select id="display" class="col-md-3">
+	        <option value="" hidden>Sector</option>
+	    </select>
+			<input type="hidden" name="" id="type" value="For Rent">
+	    <input type="text" id="location" class="col-md-3" placeholder="Enter a street name, address number or keyword">
+	    <style media="screen">
+	      .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
+	    </style>
+	    <button type="button" class="btn btn-sm n col-md-2 fa fa-search" onclick="make_search();" style="background: black; color: white;" > SEARCH</button>
+	</div>
+	</form>
+	</div>
+	</div>
+	<!-- Filter form section end -->
 <a href="categories.php"><div class="rent-notic">All</div></a>
 <a href="categories-for-sale.php"><div class="sale-notic">For Sale</div></a>
 </center>
 <!-- Breadcrumb -->
 <br>
+<span id="getSearch">
 <!-- page -->
 <section class="page-section categories-page">
 <div class="container">
-<div class="row">
 
+<div class="row">
+<?php
+if(!isset($_GET['range'])): $query= $db->getRows('houses', array('orderd by' => 'id asc', 'where'=>array('category'=>'For Rent','status'=>0)));
+elseif(isset($_GET['range'])):
+	if($_GET['range']==1):
+		$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>0, 'limit'=>12, 'where'=>array('category'=>'For Rent','status'=>0)));
+	elseif($_GET['range']==2):
+		$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>13, 'limit'=>12, 'where'=>array('category'=>'For Rent','status'=>0)));
+	elseif($_GET['range']==3):
+		$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>25, 'limit'=>12, 'where'=>array('category'=>'For Rent','status'=>0)));
+	elseif($_GET['range']==4):
+		$query= $db->getRows('houses', array('order_by' => 'id asc', 'start'=>37, 'limit'=>12, 'where'=>array('category'=>'For Rent','status'=>0)));
+	endif;
+endif;
+if(!empty($query)): $count=0; foreach($query as $show): $count++; ?>
 <div class="col-lg-4 col-md-6">
 				<div class="feature-item">
-					<a href="single_list.php">
-						<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
-						<div class="rent-notic">FOR RENT</div>
+					<a href="single_list.php?request=<?php echo $show['id'];?>&status=available">
+						<div class="feature-pic set-bg" data-setbg="<?php echo 'img/pictures/'.$show['main_picture']; ?>">
+						<?php if($show['category']=='For Sale'):?><div class="sale-notic"><?php echo $show['category'];?></div>
+						<?php elseif($show['category']=='For Rent'):?><div class="rent-notic"><?php echo $show['category'];?></div>
+					<?php endif; ?>
 						</div>
 						<div class="feature-text">
 								<div class="text-center feature-title">
-								<h5>Kimisagara, KN 175 AV</h5>
-								<p><i class="fa fa-map-marker"></i>Nyarugenge, Kigali City</p>
+								<h5><?php echo $show['adress'].' '.$show['location']; ?></h5>
+								<?php $query1=$db->getRows('district', array('where'=>array('id'=>$show['district_id']))); if(!empty($query1)): foreach($query1 as $show1): ?>
+								<p><i class="fa fa-map-marker"></i><?php echo $show1['district_name']; ?>, Kigali City</p>
+							<?php endforeach; endif; ?>
 								</div>
 								<div class="room-info-warp">
 								<div class="room-info">
 								<div class="rf-left">
-								<p><i class="fa fa-th-large"></i> 800 Square foot</p>
-								<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+								<p><i class="fa fa-bed"></i> <?php echo $show['bedroom']; ?> Bedrooms</p>
+								<?php $query2=$db->getRows('house_owners', array('where'=>array('id'=>$show['house_owner_id']))); if(!empty($query2)): foreach($query2 as $show2): ?>
+								<p><i class="fa fa-user"></i> <?php echo $show2['fname'].' '.$show2['lname']; ?></p>
+							<?php endforeach; endif; ?>
 								</div>
 								<div class="rf-right">
-								<p><i class="fa fa-car"></i> 2 Garages</p>
-								<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+								<p><i class="fa fa-car"></i> <?php echo $show['garage'];?> Garages</p>
+								<p><i class="fa fa-bath"></i> <?php echo $show['bathroom'];?> Bathrooms</p>
 								</div>
 								</div>
 								<div class="room-info">
 								<div class="rf-left">
-								<p><i class="fa fa-user"></i> Tony Holland</p>
+
 								</div>
 								<div class="rf-right">
-								<p><i class="fa fa-clock-o"></i> 1 days ago</p>
 								</div>
 								</div>
 								</div>
-								<a href="#" class="room-price">$1,200,000</a>
+								<a href="#" class="room-price">Rwfs <?php echo number_format($show['price']); ?></a>
 						</div>
 					</a>
 				</div>
 </div>
-
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/8.jpg">
-<div class="rent-notic">FOR RENT</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>9633 Weathered Oak Ct</h5>
-<p><i class="fa fa-map-marker"></i> Bethesda, MD 208179</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1000 Square foot</p>
-<p><i class="fa fa-bed"></i> 6 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Ann </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,230,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/9.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>2529 Marsh Hill Henry</h5>
-<p><i class="fa fa-map-marker"></i> McHenry,</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 550 Square foot</p>
-<p><i class="fa fa-bed"></i> 4 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i>  McHenry, </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">$1,000/month</a>
-</div>
-</div>
-</div>
-
+<?php endforeach; endif; ?>
 </div>
 <div class="site-pagination">
-<a href="categories1.html">1</a>
-<a href="categories2.html">2</a>
-<a href="categories3.html">3</a>
-<a href="categories4.html">4</a>
-<a href="categories5.html">5</a>
+<?php if($count>=0 and $count<=12): ?>
+<a href="categories-for-rent.php?range=1">1</a>
+<?php endif; if($count>=13 and $count<=24): ?>
+<a href="categories-for-rent.php?range=2">2</a>
+<?php endif; if($count>=25 and $count<=36): ?>
+<a href="categories-for-rent.php?range=3">3</a>
+<?php endif; if($count>=37 and $count<=48): ?>
+<a href="categories-for-rent.php?range">4</a>
+<?php endif; ?>
 </div>
 </div>
 </section>
 <!-- page end -->
-
+</span>
 
 <!-- Clients section -->
 <div class="clients-section">

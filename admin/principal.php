@@ -23,6 +23,9 @@ switch ($_GET['request']) {
   case 'payment':
     include('views/payment.php');
     break;
+  case 'clients':
+    include('views/clients.php');
+    break;
   case 'feedback':
     include('views/feedback.php');
     break;

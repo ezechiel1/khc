@@ -134,7 +134,7 @@ if($sssData!=''):
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
         <div class="sidebar-brand-icon">
           <img style="width: 50px; height: 50px;" class="img-profile rounded-circle" src="<?php echo $profile; ?>">
         </div>
@@ -165,6 +165,11 @@ if($sssData!=''):
 			<i class="fa fa-users"></i>
 			<span>House Owners</span></a>
 	</li>
+	<li class="nav-item active">
+		<a class="nav-link" href="principal.php?request=clients">
+			<i class="fa fa-users"></i>
+			<span>Clients</span></a>
+	</li>
 <?php else: ?>
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -194,7 +199,7 @@ if($sssData!=''):
       <li class="nav-item active">
         <a class="nav-link" href="principal.php?request=payment">
           <i class="fa fa-home"></i>
-          <span>Payment</span></a>
+          <span>Payment Report</span></a>
       </li>
 <?php endif; ?>
 <?php if($category=='admin'): ?>

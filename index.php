@@ -27,6 +27,18 @@
 <link rel="stylesheet" href="css/animate.css"/>
 <link rel="stylesheet" href="css/owl.carousel.css"/>
 <link rel="stylesheet" href="css/style.css"/>
+<style media="screen">
+.spad {
+	padding-top: 3px;
+	padding-bottom: 0px;
+}
+.section-title {
+    margin-bottom: 0px;
+}
+h5 {
+    font-size: 18px;
+}
+</style>
 </head>
 <body>
 <!-- Page Preloder -->
@@ -116,75 +128,62 @@ if(!empty($alld)): foreach($alld as $getd):?>
     <select id="display" class="col-md-3">
         <option value="" hidden>Sector</option>
     </select>
-    <input type="text" class="col-md-3" placeholder="Enter a street name, address number or keyword">
+		<input type="hidden" name="" id="type" value="all">
+    <input type="text" id="location" class="col-md-3" placeholder="Enter a street name, address number or keyword">
     <style media="screen">
       .n:hover{ background: #30caa0; color: grey; border: 1px solid gray;}
     </style>
-    <button class="btn btn-sm n col-md-2 fa fa-search" style="background: black; color: white;" > SEARCH</button>
+    <button type="button" class="btn btn-sm n col-md-2 fa fa-search" onclick="make_search();" style="background: black; color: white;" > SEARCH</button>
 </div>
 </form>
 </div>
 </div>
 <!-- Filter form section end -->
 
-
+<!-- Start Search Resul -->
+<span id="getSearch" style="margin-bottom: 20px;">
 <!-- Properties section -->
 <section class="properties-section spad">
 <div class="container">
 <div class="section-title text-center">
 <h3>RECENT PROPERTIES</h3>
+<?php $query = $db->getRows('houses',array('order_by'=>'id desc','limit'=>4, 'where'=>array('status'=>0)));
+if(!empty($query)): ?>
 <p>Discover how much the latest properties have been sold for</p>
 </div>
 <div class="row">
+<?php  foreach($query as $show):?>
 <div class="col-md-6">
-<div class="propertie-item set-bg" data-setbg="img/propertie/1.jpg">
-<div class="sale-notic">FOR SALE</div>
-<div class="propertie-info text-white">
-<div class="info-warp">
-<h5>Nyakabanda, KN 167 AV</h5>
-<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
+	<?php if($show['status']==0): ?>
+	<a href="single_list.php?request=<?php echo $show['id'];?>&status=available">
+	<?php elseif($show['status']==1): ?>
+	<a href="single_list.php?request=<?php echo $show['id'];?>&status=booked">
+	<?php endif; ?>
+		<div class="propertie-item set-bg" data-setbg="<?php echo 'img/pictures/'.$show['main_picture']; ?>">
+		<?php if($show['category']=='For Sale'): ?><div class="sale-notic"><?php echo $show['category']; ?></div>
+		<?php elseif($show['category']=='For Rent'): ?><div class="rent-notic"><?php echo $show['category']; ?></div>
+		<?php endif; ?>
+			<div class="propertie-info text-white">
+				<div class="info-warp">
+					<h5><?php echo $show['adress'].'  '.$show['location']; ?></h5>
+					<?php $query3= $db->getRows('district', array('where' => array('id'=>$show['district_id']) ));
+					  if(!empty($query3)): foreach($query3 as $show3):
+							$query4= $db->getRows('sector', array('where' => array('id'=>$show['sector_id']) ));
+							  if(!empty($query4)): foreach($query4 as $show4): ?>
+					<p><i class="fa fa-map-marker"></i> <?php echo $show4['sector_name']; ?>, <?php echo $show3['district_name']; ?> , Kigali City</p>
+				<?php endforeach; endif;
+			endforeach; endif; ?>
+				</div>
+			<div class="price">Rwfs <?php echo number_format($show['price']); ?></div>
+			</div>
+		</div>
+	</a>
 </div>
-<div class="price">Rwfs 51,777,000</div>
+<?php  endforeach;
+else: echo '<center><p>No Available House for the moment!</p></center>';
+?>
 </div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="propertie-item set-bg" data-setbg="img/propertie/2.jpg">
-<div class="rent-notic">FOR RENT</div>
-<div class="propertie-info text-white">
-<div class="info-warp">
-<h5>Gisozi, KG 7 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="price">Rwfs 550,000/month</div>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="propertie-item set-bg" data-setbg="img/propertie/3.jpg">
-<div class="sale-notic">FOR SALE</div>
-<div class="propertie-info text-white">
-<div class="info-warp">
-<h5>Kimihurura KG 7 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="price">Rwfs 51,000,000</div>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<div class="propertie-item set-bg" data-setbg="img/propertie/4.jpg">
-<div class="rent-notic">FOR RENT</div>
-<div class="propertie-info text-white">
-<div class="info-warp">
-<h5>Kanombe KK 7 AV</h5>
-<p><i class="fa fa-map-marker"></i>Kicukiro , Kigali city</p>
-</div>
-<div class="price">Rwfs 300,000/month</div>
-</div>
-</div>
-</div>
-</div>
+<?php endif; ?>
 </div>
 </section>
 <!-- Properties section end -->
@@ -240,224 +239,72 @@ if(!empty($alld)): foreach($alld as $getd):?>
 <p>Browse houses and flats for sale and to rent in your area</p>
 </div>
 <div class="row">
+<?php $query = $db->getRows('houses',array('order_by'=>'id asc', 'limit'=>6, 'where'=>array('status'=>0)));
+if(!empty($query)): foreach($query as $show):?>
+
 <div class="col-lg-4 col-md-6">
+	<?php if($show['status']==0): ?>
+	<a href="single_list.php?request=<?php echo $show['id'];?>&status=available">
+	<?php elseif($show['status']==1): ?>
+	<a href="single_list.php?request=<?php echo $show['id'];?>&status=booked">
+	<?php endif; ?>
 <!-- feature -->
 <div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/1.jpg">
-<div class="sale-notic">FOR SALE</div>
+<div class="feature-pic set-bg" data-setbg="<?php echo 'img/pictures/'.$show['main_picture']; ?>">
+	<?php if($show['category']=='For Sale'):?><div class="sale-notic"><?php echo $show['category'];?></div>
+	<?php elseif($show['category']=='For Rent'):?><div class="rent-notic"><?php echo $show['category'];?></div>
+<?php endif; ?>
 </div>
 <div class="feature-text">
 <div class="text-center feature-title">
-<h5>Kacyiru KN 8 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
+<h5><?php echo $show['adress'].' '.$show['location']; ?></h5>
+<?php $query3= $db->getRows('district', array('where' => array('id'=>$show['district_id']) ));
+  if(!empty($query3)): foreach($query3 as $show3):
+		$query4= $db->getRows('sector', array('where' => array('id'=>$show['sector_id']) ));
+		  if(!empty($query4)): foreach($query4 as $show4): ?>
+<p><i class="fa fa-map-marker"></i> <?php echo $show4['sector_name']; ?>, <?php echo $show3['district_name']; ?> , Kigali City</p>
+<?php endforeach; endif;
+endforeach; endif; ?>
 </div>
 <div class="room-info-warp">
 <div class="room-info">
 <div class="rf-left">
-<p><i class="fa fa-th-large"></i> 800 Square foot</p>
-<p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+<p><i class="fa fa-bed"></i> <?php echo $show['bedroom']; ?> Bedrooms</p>
+<?php $query2= $db->getRows('house_owners', array('where' => array('id'=>$show['house_owner_id']) ));
+  if(!empty($query2)): foreach($query2 as $show2): ?>
+<p><i class="fa fa-user"></i><?php echo $show2['fname'].' '.$show2['lname']; ?></p>
+<?php endforeach; endif; ?>
 </div>
 <div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+<p><i class="fa fa-car"></i> <?php echo $show['garage']; ?> Garages</p>
+<p><i class="fa fa-bath"></i> <?php echo $show['bathroom']; ?> Bathrooms</p>
 </div>
 </div>
 <div class="room-info">
 <div class="rf-left">
-<p><i class="fa fa-user"></i> Tony Holland</p>
+
 </div>
 <div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
 </div>
 </div>
 </div>
-<a href="#" class="room-price">Rwfs 51,200,000</a>
+<a href="single-list.php" class="room-price">Rwfs <?php echo number_format($show['price']); ?></a>
 </div>
 </div>
+</a>
 </div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/2.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kimironko KG AV 6</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">Rwfs 45,500,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/3.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Gikondo KG 8 AV</h5>
-<p><i class="fa fa-map-marker"></i>kICUKIRO , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-<p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 2 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 1 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">Rwfs 562,500/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/4.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kanombe KK 8 AV</h5>
-<p><i class="fa fa-map-marker"></i>Kicukiro , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 1200 Square foot</p>
-<p><i class="fa fa-bed"></i> 12 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 3 Garages</p>
-<p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Sasha Gordon </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">Rwfs 85,600,000</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/5.jpg">
-<div class="rent-notic">FOR Rent</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Muhima KN 6 AV</h5>
-<p><i class="fa fa-map-marker"></i>Nyarugenge , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 500 Square foot</p>
-<p><i class="fa fa-bed"></i> 4 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 2 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Gina Wesley</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">Rwfs 510,600/month</a>
-</div>
-</div>
-</div>
-<div class="col-lg-4 col-md-6">
-<!-- feature -->
-<div class="feature-item">
-<div class="feature-pic set-bg" data-setbg="img/feature/6.jpg">
-<div class="sale-notic">FOR SALE</div>
-</div>
-<div class="feature-text">
-<div class="text-center feature-title">
-<h5>Kinyinya , KG 8 AV</h5>
-<p><i class="fa fa-map-marker"></i>Gasabo , Kigali City</p>
-</div>
-<div class="room-info-warp">
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-th-large"></i> 700 Square foot</p>
-<p><i class="fa fa-bed"></i> 7 Bedrooms</p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-car"></i> 1 Garages</p>
-<p><i class="fa fa-bath"></i> 7 Bathrooms</p>
-</div>
-</div>
-<div class="room-info">
-<div class="rf-left">
-<p><i class="fa fa-user"></i> Sasha Gordon </p>
-</div>
-<div class="rf-right">
-<p><i class="fa fa-clock-o"></i> 8 days ago</p>
-</div>
-</div>
-</div>
-<a href="#" class="room-price">Rwfs 71,600,000</a>
-</div>
-</div>
-</div>
+<?php endforeach;
+
+ endif; ?>
 </div>
 </div>
 </section>
 <!-- feature section end -->
 
-
+<!-- End Search -->
+</span>
 <!-- Gallery section -->
-<section class="gallery-section spad">
+<section  style="padding-top: 40px;" class="gallery-section spad">
 <div class="container">
 <div class="section-title text-center">
 <h3>Popular Places</h3>
@@ -465,25 +312,25 @@ if(!empty($alld)): foreach($alld as $getd):?>
 </div>
 <div class="gallery">
 <div class="grid-sizer"></div>
-<a href="#" class="gallery-item grid-long set-bg" data-setbg="img/gallery/1.jpg">
+<a href="houses.php?idh=38&sector=Muhima" class="gallery-item grid-long set-bg" data-setbg="img/gallery/1.jpg">
 <div class="gi-info">
 <h3>Muhima</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="#" class="gallery-item grid-wide set-bg" data-setbg="img/gallery/2.jpg">
+<a href="houses.php?idh=16&sector=Kimironko" class="gallery-item grid-wide set-bg" data-setbg="img/gallery/2.jpg">
 <div class="gi-info">
 <h3>Kimironko</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="#" class="gallery-item set-bg" data-setbg="img/gallery/3.jpg">
+<a href="houses.php?idh=15&sector=Kacyiru" class="gallery-item set-bg" data-setbg="img/gallery/3.jpg">
 <div class="gi-info">
 <h3>Kacyiru</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="#" class="gallery-item set-bg" data-setbg="img/gallery/4.jpg">
+<a href="houses.php?idh=23&sector=Gikondo" class="gallery-item set-bg" data-setbg="img/gallery/4.jpg">
 <div class="gi-info">
 <h3>Gikondo</h3>
 <p>Look For Approriate Properties</p>

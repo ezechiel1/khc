@@ -3,11 +3,13 @@
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List of Payment
-                </h6>
+              <h6 class="m-0 font-weight-bold text-primary row">List of Payment
+                  <a href="excel.php" class="btn btn-primary btn-sm pull-right "  style="position: absolute; right: 20px; top: 10px;">Excel</a>
+                  </h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
+<?php $output = '
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
@@ -20,20 +22,40 @@
                       <th>Date</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody>';
+$query=$db->getRows('payment', array('Order by'=>'id asc'));
+$houses = $db->getRows('houses', array('where'=> array('house_owner_id'=>$id)));
+if(!empty($houses)): foreach($houses as $house):
+  if(!empty($query)): $count=0; foreach($query as $show): $count++;
+    $clients = $db->getRows('clients', array('where'=>array('id'=>$show['client_id'])));
+    if(!empty($clients)): foreach($clients as $get): $clientName = $get['fname'].' '.$get['lname']; endforeach; endif;
 
-                    <tr>
-                        <td>1</td>
-                        <td>KN 150 AV</td>
-                        <td>For Sale</td>
-                        <td>Gisozi</td>
-                        <td>Shema</td>
-                        <td>200 000 Rwf</td>
-                        <td>11/10/2019</td>
-                    </tr>
-                
-                  </tbody>
-                </table>
+    $output.='                <tr>
+                        <td>'.$count.'</td>
+                        <td>'.$house['location'].'</td>
+                        <td>'.$house['category'].'</td>
+                        <td>';
+                        $sector = $db->getRows('sector', array('where'=> array('id'=>$house['sector_id'])));
+                        if(!empty($sector)): foreach($sector as $sector):
+                $output.= $sector['sector_name'];
+                       endforeach; endif;
+    $output.='
+                        </td>
+                        <td>'.$clientName.'</td>
+                        <td>'.$house['price'].' Rwf</td>
+                        <td>'.$house['c_date'].'</td>
+                    </tr>';
+endforeach; endif;
+endforeach; endif;
+
+$output.=' </tbody>
+                </table>';
+//Display the content
+echo $output;
+//Send Session
+$_SESSION['output']=$output;
+$_SESSION['filename']='payment_report';
+?>
               </div>
             </div>
           </div>

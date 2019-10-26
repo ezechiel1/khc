@@ -64,7 +64,7 @@ info.kigalihouses@gmail.com
 
 <div class="col-lg-6 text-lg-right header-top-right">
 <div class="top-social">
-<a href=""><i class="fa fa-facebook"></i></a>
+<a href="https://web.facebook.com/pages/creation/?ref_type=pages_browser"><i class="fa fa-facebook"></i></a>
 <a href=""><i class="fa fa-twitter"></i></a>
 <a href=""><i class="fa fa-instagram"></i></a>
 <a href=""><i class="fa fa-pinterest"></i></a>
@@ -312,25 +312,25 @@ endforeach; endif; ?>
 </div>
 <div class="gallery">
 <div class="grid-sizer"></div>
-<a href="houses.php?idh=38&sector=Muhima" class="gallery-item grid-long set-bg" data-setbg="img/gallery/1.jpg">
+<a href="houses.php?id=2&district=Gisozi&idh=38&sector=Muhima" class="gallery-item grid-long set-bg" data-setbg="img/gallery/1.jpg">
 <div class="gi-info">
 <h3>Muhima</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="houses.php?idh=16&sector=Kimironko" class="gallery-item grid-wide set-bg" data-setbg="img/gallery/2.jpg">
+<a href="houses.php?id=2&district=Gisozi&idh=16&sector=Kimironko" class="gallery-item grid-wide set-bg" data-setbg="img/gallery/2.jpg">
 <div class="gi-info">
 <h3>Kimironko</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="houses.php?idh=15&sector=Kacyiru" class="gallery-item set-bg" data-setbg="img/gallery/3.jpg">
+<a href="houses.php?id=2&district=Gisozi&idh=15&sector=Kacyiru" class="gallery-item set-bg" data-setbg="img/gallery/3.jpg">
 <div class="gi-info">
 <h3>Kacyiru</h3>
 <p>Look For Approriate Properties</p>
 </div>
 </a>
-<a href="houses.php?idh=23&sector=Gikondo" class="gallery-item set-bg" data-setbg="img/gallery/4.jpg">
+<a href="houses.php?id=2&district=Gisozi&idh=23&sector=Gikondo" class="gallery-item set-bg" data-setbg="img/gallery/4.jpg">
 <div class="gi-info">
 <h3>Gikondo</h3>
 <p>Look For Approriate Properties</p>
@@ -444,21 +444,20 @@ endforeach; endif; ?>
 <div class="double-menu-widget">
 <h5 class="fw-title">POPULAR PLACES</h5>
 <ul>
-<li><a href="">Remera</a></li>
-<li><a href="">Gikondo</a></li>
-<li><a href="">Kanombe</a></li>
-<li><a href="">Kicukiro</a></li>
-<li><a href="">Nyamirambo</a></li>
-<li><a href="">Nyarugenge</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=17&sector=Remera">Remera</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=23&sector=Gikondo">Gikondo</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=25&sector=Kanombe">Kanombe</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=24&sector=Kagunga">Kagunga</a></li>
+<li><a href="houses.php?id=1&district=Kicukiro&idh=2&sector=Masaka">Masaka</a></li>
 
 </ul>
 <ul>
-<li><a href="">Kinyinya</a></li>
-<li><a href="">Kacyiru</a></li>
-<li><a href="">Kimihurura</a></li>
-<li><a href="">Kimironko</a></li>
-<li><a href="">Gisozi</a></li>
-<li><a href="">Masaka</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=19&sector=Kinyinya">Kinyinya</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=15&sector=Kacyiru">Kacyiru</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=14&sector=Kimihurura">Kimihurura</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=16&sector=Kimironko">Kimironko</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=18&sector=Gisozi">Gisozi</a></li>
+
 </ul>
 </div>
 </div>

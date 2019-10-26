@@ -38,11 +38,11 @@ if(!empty($queryD)): foreach($queryD as $getD): ?>
                       <textarea name="description" required rows="2" placeholder="Description of the House" class="form-control"></textarea>
                     </div>
                     <div class="col-md-6">
-                      <input type="text" required name="garage" placeholder="Number of Garages ex. 0 or 1 or 2 ..." class="form-control">
+                      <input type="number" required name="garage" placeholder="Number of Garages ex. 0 or 1 or 2 ..." class="form-control">
                       <br>
-                      <input type="text" required name="bathroom" placeholder="Number of Bathrooms ex. 0 or 1 or 2 ..." class="form-control">
+                      <input type="number" required name="bathroom" placeholder="Number of Bathrooms ex. 0 or 1 or 2 ..." class="form-control">
                       <br>
-                      <input type="text" required name="bedroom" placeholder="Number of Bedrooms ex. 0 or 1 or 2 ..." class="form-control">
+                      <input type="number" required name="bedroom" placeholder="Number of Bedrooms ex. 0 or 1 or 2 ..." class="form-control">
                       <br>
                       <input type="file" style="padding-bottom: 40px;" name="main_picture" required class="form-control">
                       <br>

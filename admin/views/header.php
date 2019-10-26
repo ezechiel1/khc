@@ -165,6 +165,7 @@ if($sssData!=''):
 			<i class="fa fa-users"></i>
 			<span>House Owners</span></a>
 	</li>
+	<hr class="sidebar-divider">
 	<li class="nav-item active">
 		<a class="nav-link" href="principal.php?request=clients">
 			<i class="fa fa-users"></i>

@@ -73,7 +73,7 @@
               </form>
               <hr>
               <div class="text-center">
-                <a class="small" href="forgot-password.php">Forgot Password?</a>
+                <!-- <a class="small" href="forgot-password.php">Forgot Password?</a> -->
               </div>
               <div class="text-center">
                 <a class="small" href="index.php">Already have an account? Login!</a>
@@ -84,7 +84,26 @@
       </div>
     </div>
   </div>
-
+  <!-- Footer -->
+  <style media="screen">
+  footer.sticky-footer {
+  padding: 0rem 0;
+  flex-shrink: 0;
+}
+  </style>
+  <footer class="sticky-footer" >
+    <div class="container my-auto row">
+      <div class="copyright col-md-10 text-center my-auto">
+        <span style="color: white;">Copyright &copy; Kigali House Connect ~ 2019</span>
+      </div>
+      <div class="copyright text-center col-md-2 pull-right my-auto">
+        <a  href="../index.php" name="login" class="btn btn-primary btn-user btn-block">
+          Go to Website
+        </a>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

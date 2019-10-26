@@ -124,7 +124,7 @@ info.kigalihouses@gmail.com
 	<form class="filter-form">
 	<div class="form-group row">
 	    <select name="district" id="district" onchange="getSectors();" class="col-md-3">
-	        <option value="2" hidden>Gasabo</option>
+	        <option value="<?php echo $_GET['id']; ?>" hidden><?php echo $_GET['district']; ?></option>
 	<?php $alld=$db->getRows('district',array('Order by'=>'district_name desc'));
 	if(!empty($alld)): foreach($alld as $getd):?>
 	        <option value="<?php echo $getd['id']; ?>" ><?php echo $getd['district_name']; ?></option>
@@ -281,21 +281,20 @@ else: echo '<div class="col-lg-12 col-md-12"><center><div class="section-title t
 <div class="double-menu-widget">
 <h5 class="fw-title">POPULAR PLACES</h5>
 <ul>
-<li><a href="">Remera</a></li>
-<li><a href="">Gikondo</a></li>
-<li><a href="">Kanombe</a></li>
-<li><a href="">Kicukiro</a></li>
-<li><a href="">Nyamirambo</a></li>
-<li><a href="">Nyarugenge</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=17&sector=Remera">Remera</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=23&sector=Gikondo">Gikondo</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=25&sector=Kanombe">Kanombe</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=24&sector=Kagunga">Kagunga</a></li>
+<li><a href="houses.php?id=1&district=Kicukiro&idh=2&sector=Masaka">Masaka</a></li>
 
 </ul>
 <ul>
-<li><a href="">Kinyinya</a></li>
-<li><a href="">Kacyiru</a></li>
-<li><a href="">Kimihurura</a></li>
-<li><a href="">Kimironko</a></li>
-<li><a href="">Gisozi</a></li>
-<li><a href="">Masaka</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=19&sector=Kinyinya">Kinyinya</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=15&sector=Kacyiru">Kacyiru</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=14&sector=Kimihurura">Kimihurura</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=16&sector=Kimironko">Kimironko</a></li>
+<li><a href="houses.php?id=2&district=Gasabo&idh=18&sector=Gisozi">Gisozi</a></li>
+
 </ul>
 </div>
 </div>

@@ -61,7 +61,7 @@ class Extra
 	    $ext=strrchr($name, '.');
         $tmp_name = $fileName['tmp_name'];
         $dir_picture = $path.$name;
-        $valables = array('.jpg','.JPG','.PNG','.png');
+        $valables = array('.jpg','.JPG','.PNG','.png','.jpeg','.JPEG');
 		if(in_array($ext, $valables)):
                 if(move_uploaded_file($tmp_name, $dir_picture)):
                   	return $name;

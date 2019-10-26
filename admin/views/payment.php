@@ -24,9 +24,9 @@
                   </thead>
                   <tbody>';
 $query=$db->getRows('payment', array('Order by'=>'id asc'));
-$houses = $db->getRows('houses', array('where'=> array('house_owner_id'=>$id)));
-if(!empty($houses)): foreach($houses as $house):
-  if(!empty($query)): $count=0; foreach($query as $show): $count++;
+if(!empty($query)): $count=0; foreach($query as $show):
+$houses = $db->getRows('houses', array('where'=> array('house_owner_id'=>$id,'id'=>$show['house_id'])));
+if(!empty($houses)): foreach($houses as $house): $count++;
     $clients = $db->getRows('clients', array('where'=>array('id'=>$show['client_id'])));
     if(!empty($clients)): foreach($clients as $get): $clientName = $get['fname'].' '.$get['lname']; endforeach; endif;
 
